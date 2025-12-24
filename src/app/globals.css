@@ -1,0 +1,588 @@
+/* Google Fonts Import - MUST be first */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Pacifico&family=Playfair+Display:wght@600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap");
+
+@import "tailwindcss";
+
+@theme inline {
+  /* Font Families */
+  --font-script: "Pacifico", "Dancing Script", cursive;
+  --font-heading: "Playfair Display", Georgia, serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+
+  /* Brand Colors - Purple */
+  --color-noki-purple-deep: #2d1b4e;
+  --color-noki-purple-dark: #3d2158;
+  --color-noki-purple-medium: #5c4a72;
+  --color-noki-purple-muted: #7a6891;
+  --color-noki-purple-light: #d4c4f7;
+  --color-noki-purple-lavender: #e8dcff;
+  --color-noki-purple-glow: #c9a0ff;
+
+  /* Brand Colors - Pink */
+  --color-noki-pink-hot: #ff6b9d;
+  --color-noki-pink-bright: #ff69b4;
+  --color-noki-pink-soft: #ff9ecd;
+  --color-noki-pink-blush: #ffdbe9;
+  --color-noki-pink-mauve: #f2d7ea;
+
+  /* Brand Colors - Cyan (Eye Glow) */
+  --color-noki-cyan-electric: #00e5ff;
+  --color-noki-cyan-bright: #5bfff7;
+
+  /* Glass Colors */
+  --color-glass-white: rgba(255, 255, 255, 0.6);
+  --color-glass-white-light: rgba(255, 255, 255, 0.4);
+  --color-glass-border: rgba(255, 255, 255, 0.8);
+  --color-glass-cloud: rgba(255, 255, 255, 0.3);
+
+  /* Premium Shadows */
+  --shadow-noki-card: 0 8px 32px rgba(45, 27, 78, 0.15);
+  --shadow-noki-button: 0 4px 16px rgba(45, 27, 78, 0.2);
+  --shadow-noki-float: 0 20px 60px rgba(45, 27, 78, 0.1);
+  --shadow-noki-glow-cyan: 0 0 20px #5bfff7, 0 0 40px rgba(91, 255, 247, 0.5);
+  --shadow-noki-glow-pink: 0 0 20px #ff69b4, 0 0 40px rgba(255, 105, 180, 0.4);
+  --shadow-noki-glow-purple:
+    0 0 30px rgba(168, 85, 247, 0.4), 0 0 60px rgba(168, 85, 247, 0.2);
+
+  /* Border Radius */
+  --radius-noki: 20px;
+  --radius-noki-sm: 12px;
+  --radius-noki-lg: 24px;
+  --radius-noki-xl: 32px;
+  --radius-noki-pill: 9999px;
+
+  /* Premium Easing */
+  --ease-luxury: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* Animations */
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
+  --animate-sparkle: sparkle 1.5s ease-in-out infinite;
+}
+
+/* ============================================ */
+/* KEYFRAME ANIMATIONS - Premium Motion        */
+/* ============================================ */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes floatGentle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes glow-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px #5bfff7,
+      0 0 40px rgba(91, 255, 247, 0.5);
+    opacity: 1;
+  }
+  50% {
+    box-shadow:
+      0 0 30px #5bfff7,
+      0 0 60px rgba(91, 255, 247, 0.7);
+    opacity: 0.8;
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 40px rgba(168, 85, 247, 0.5),
+      0 0 60px rgba(236, 72, 153, 0.3);
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ============================================ */
+/* BASE STYLES                                 */
+/* ============================================ */
+
+:root {
+  --background: #e8dcff;
+  --foreground: #2d1b4e;
+}
+
+/* ============================================ */
+/* LENIS SMOOTH SCROLL                         */
+/* ============================================ */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ============================================ */
+/* BASE STYLES                                 */
+/* ============================================ */
+
+html {
+  /* Note: scroll-behavior: smooth removed - Lenis handles scrolling */
+  /* Absolute base layer - gradient sky */
+  background: linear-gradient(
+    165deg,
+    #7c3aed 0%,
+    #8b5cf6 5%,
+    #a78bfa 12%,
+    #c4b5fd 22%,
+    #ddd6fe 35%,
+    #ede9fe 48%,
+    #f5f3ff 58%,
+    #fdf4ff 68%,
+    #fdf2f8 78%,
+    #fce7f3 88%,
+    #fbcfe8 100%
+  );
+  background-attachment: fixed;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--foreground);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Selection styling */
+::selection {
+  background: rgba(168, 85, 247, 0.3);
+  color: #2d1b4e;
+}
+
+/* ============================================ */
+/* TYPOGRAPHY UTILITIES                        */
+/* ============================================ */
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Text Gradient */
+.text-gradient-purple {
+  background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-aurora {
+  background: linear-gradient(135deg, #a855f7 0%, #ec4899 50%, #8b5cf6 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Logo Text Style */
+.logo-text {
+  font-family: var(--font-script);
+  font-size: 3.5rem;
+  color: #1a0d2e;
+  text-shadow:
+    1px 1px 2px rgba(255, 255, 255, 0.9),
+    2px 2px 4px rgba(45, 27, 78, 0.15);
+}
+
+/* ============================================ */
+/* GLASS MORPHISM EFFECTS                      */
+/* ============================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 4px 6px -1px rgba(45, 27, 78, 0.05),
+    0 10px 15px -3px rgba(45, 27, 78, 0.08),
+    0 20px 40px -10px rgba(45, 27, 78, 0.1);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-frosted {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 8px 32px rgba(45, 27, 78, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.glass-crystal {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.45) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 20px 40px rgba(45, 27, 78, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* ============================================ */
+/* BUTTON STYLES                               */
+/* ============================================ */
+
+/* Primary Button */
+.btn-primary {
+  background: #2d1b4e;
+  color: white;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 16px rgba(45, 27, 78, 0.2);
+  transition: all 0.3s var(--ease-luxury);
+}
+
+.btn-primary:hover {
+  background: #3d2158;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45, 27, 78, 0.3);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.9);
+  color: #2d1b4e;
+  padding: 12px 28px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 2px solid #2d1b4e;
+  transition: all 0.3s var(--ease-luxury);
+}
+
+.btn-secondary:hover {
+  background: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(45, 27, 78, 0.15);
+}
+
+/* CTA Button Pink */
+.btn-cta-pink {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff5588 100%);
+  color: white;
+  padding: 14px 32px;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+  transition: all 0.3s var(--ease-luxury);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-cta-pink:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
+}
+
+/* ============================================ */
+/* BADGE & PILL STYLES                         */
+/* ============================================ */
+
+/* Coming Soon Badge */
+.coming-soon-badge {
+  background: linear-gradient(135deg, #ff6b9d 0%, #ff69b4 100%);
+  padding: 8px 24px;
+  border-radius: 9999px;
+  color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+}
+
+/* Feature Pill - Premium glass style */
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 9999px;
+  color: #5c4a72;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(45, 27, 78, 0.08);
+  transition: all 0.3s var(--ease-luxury);
+}
+
+.feature-pill:hover {
+  background: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 8px 24px rgba(45, 27, 78, 0.12);
+}
+
+/* Character Badge */
+.character-badge {
+  padding: 8px 20px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+  display: inline-block;
+}
+
+.character-badge.pink {
+  background: linear-gradient(135deg, #ff6b9d, #ff69b4);
+}
+
+.character-badge.blue {
+  background: linear-gradient(135deg, #6bb3ff, #5b9aff);
+}
+
+.character-badge.purple {
+  background: linear-gradient(135deg, #a855f7, #9333ea);
+}
+
+/* ============================================ */
+/* CARD STYLES                                 */
+/* ============================================ */
+
+/* Character Card */
+.character-card {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  border-radius: 24px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.4s var(--ease-luxury);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.character-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(45, 27, 78, 0.15);
+}
+
+/* ============================================ */
+/* DECORATIVE ELEMENTS                         */
+/* ============================================ */
+
+/* Cloud Decoration */
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+/* Sparkle Star */
+.sparkle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: white;
+  clip-path: polygon(
+    50% 0%,
+    61% 35%,
+    98% 35%,
+    68% 57%,
+    79% 91%,
+    50% 70%,
+    21% 91%,
+    32% 57%,
+    2% 35%,
+    39% 35%
+  );
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+/* Heart Decoration */
+.heart {
+  color: #ff69b4;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Glow Effect for Eyes */
+.glow-eyes {
+  box-shadow:
+    0 0 20px #5bfff7,
+    0 0 40px rgba(91, 255, 247, 0.5),
+    inset 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+/* ============================================ */
+/* SOCIAL & ICON STYLES                        */
+/* ============================================ */
+
+/* Social Icon */
+.social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2d1b4e;
+  transition: all 0.3s var(--ease-luxury);
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.6);
+  transform: scale(1.15);
+  box-shadow: 0 4px 12px rgba(45, 27, 78, 0.15);
+}
+
+/* Feature Icon */
+.feature-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #5c4a72;
+  font-size: 0.85rem;
+}
+
+/* ============================================ */
+/* ACCESSIBILITY                               */
+/* ============================================ */
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus States */
+:focus-visible {
+  outline: 2px solid rgba(168, 85, 247, 0.6);
+  outline-offset: 2px;
+}
+
+/* ============================================ */
+/* SCROLLBAR STYLING                           */
+/* ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.5);
+}
