@@ -18,26 +18,27 @@ const buttonStyles: Record<ButtonVariant, string> = {
   primary: `
     bg-gradient-to-r from-violet-600 to-purple-700
     text-white font-semibold
-    shadow-lg shadow-purple-500/25
-    hover:shadow-xl hover:shadow-purple-500/30
+    shadow-[0_4px_12px_rgba(139,92,246,0.4),0_8px_24px_rgba(139,92,246,0.25),inset_0_1px_0_rgba(255,255,255,0.2)]
+    hover:shadow-[0_6px_16px_rgba(139,92,246,0.5),0_12px_32px_rgba(139,92,246,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]
   `,
   secondary: `
     bg-white/90 text-purple-900
     border-2 border-purple-200
     hover:bg-white hover:border-purple-300
-    shadow-md
+    shadow-[0_4px_12px_rgba(139,92,246,0.1),0_8px_24px_rgba(139,92,246,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]
   `,
   pink: `
     bg-gradient-to-r from-pink-500 to-rose-500
     text-white font-semibold
-    shadow-lg shadow-pink-500/30
-    hover:shadow-xl hover:shadow-pink-500/40
+    shadow-[0_4px_12px_rgba(236,72,153,0.4),0_8px_24px_rgba(236,72,153,0.25),inset_0_1px_0_rgba(255,255,255,0.2)]
+    hover:shadow-[0_6px_16px_rgba(236,72,153,0.5),0_12px_32px_rgba(236,72,153,0.3),inset_0_1px_0_rgba(255,255,255,0.2)]
   `,
   ghost: `
     bg-white/30 backdrop-blur-sm
     text-purple-900 font-medium
     border border-white/50
     hover:bg-white/50
+    shadow-[0_4px_12px_rgba(255,255,255,0.1),inset_0_1px_0_rgba(255,255,255,0.8)]
   `,
 };
 
@@ -143,6 +144,7 @@ export function MagneticIconButton({
         hover:bg-white/60
         transition-colors duration-200
         focus:outline-none focus:ring-2 focus:ring-purple-400
+        shadow-[0_4px_12px_rgba(139,92,246,0.1),0_8px_20px_rgba(139,92,246,0.08),inset_0_1px_0_rgba(255,255,255,0.8)]
         ${className}
       `}
       animate={{
@@ -152,7 +154,8 @@ export function MagneticIconButton({
       transition={springs.magnetic}
       whileHover={{
         scale: 1.15,
-        boxShadow: "0 0 20px rgba(255, 255, 255, 0.4)",
+        boxShadow:
+          "0 0 20px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(139, 92, 246, 0.2)",
       }}
       whileTap={{
         scale: 0.95,

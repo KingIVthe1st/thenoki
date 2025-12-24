@@ -225,15 +225,17 @@ function HeroSection() {
 
             {/* Value Proposition */}
             <AnimatedSection animation="up" delay={0.4}>
-              <h2 className="font-heading text-3xl lg:text-5xl xl:text-6xl font-bold text-[#1a0d2e] mb-4 leading-tight drop-shadow-md">
-                Your Adorable AI Friend
+              <h2 className="heading-display text-3xl lg:text-5xl xl:text-6xl text-[#1a0d2e] mb-4">
+                A Friend Who Truly Listens
               </h2>
             </AnimatedSection>
 
             <AnimatedSection animation="up" delay={0.5}>
-              <p className="text-[#2D1B4E] text-lg lg:text-xl leading-relaxed lg:max-w-lg mb-8 font-semibold">
-                A cuddly plush AI toy that chats, learns, and grows with you.
-                The perfect companion for kids and families.
+              <p className="text-[#2D1B4E] text-lg lg:text-xl leading-relaxed lg:max-w-lg mb-8 font-medium text-readable">
+                Imagine a cuddly companion who remembers your child&apos;s
+                favorite stories, grows alongside them, and turns every bedtime
+                into an adventure. Noki isn&apos;t just a toy—it&apos;s a
+                magical friendship.
               </p>
             </AnimatedSection>
 
@@ -253,9 +255,9 @@ function HeroSection() {
             {/* Feature Pills */}
             <StaggerContainer className="flex flex-wrap justify-center lg:justify-start gap-4 lg:gap-6">
               {[
-                { icon: GiftIcon, text: "Magical Blind Boxes" },
-                { icon: ChatIcon, text: "AI Learning & Chatting" },
-                { icon: PhoneIcon, text: "Mobile App Integrated" },
+                { icon: GiftIcon, text: "Surprise Character in Every Box" },
+                { icon: ChatIcon, text: "Remembers & Learns Over Time" },
+                { icon: PhoneIcon, text: "Safe Parent Dashboard" },
               ].map(({ icon: Icon, text }) => (
                 <StaggerItem key={text}>
                   <motion.div
@@ -346,21 +348,24 @@ function CharactersSection() {
   const characters = [
     {
       name: "Ami Noki",
-      tagline: "Sweet & Caring",
+      tagline: "The Gentle Heart",
+      description: "Loves bedtime stories & warm hugs",
       color: "pink",
       image: "/images/ami-noki.png",
       glowColor: "rgba(236, 72, 153, 0.3)",
     },
     {
       name: "Luna Noki",
-      tagline: "Dreamy & Wise",
+      tagline: "The Dream Keeper",
+      description: "Whispers lullabies under starlight",
       color: "blue",
       image: "/images/luna-noki.png",
       glowColor: "rgba(59, 130, 246, 0.3)",
     },
     {
       name: "Kumo Noki",
-      tagline: "Playful & Curious",
+      tagline: "The Wonder Seeker",
+      description: "Always ready for the next adventure",
       color: "purple",
       image: "/images/kumo-noki.png",
       glowColor: "rgba(168, 85, 247, 0.3)",
@@ -381,9 +386,13 @@ function CharactersSection() {
               <HeartIcon className="w-6 h-6 text-pink-500" />
             </motion.span>
           </p>
-          <h3 className="font-heading text-3xl lg:text-5xl font-bold text-[#1a0d2e] drop-shadow-md">
-            An Adorable AI Toy Unlike Any Other!
+          <h3 className="heading-section text-3xl lg:text-5xl text-[#1a0d2e] mb-4">
+            Every Noki Has a Story to Tell
           </h3>
+          <p className="text-[#2D1B4E] text-lg max-w-2xl mx-auto text-readable">
+            Each character brings their own personality, voice, and magic. Which
+            one will choose your child?
+          </p>
         </AnimatedSection>
 
         {/* Character Cards */}
@@ -439,17 +448,22 @@ function CharactersSection() {
                 </div>
 
                 {/* Character Name */}
-                <h4 className="font-heading text-xl lg:text-2xl font-bold text-[#1a0d2e] mb-3">
+                <h4 className="heading-card text-xl lg:text-2xl text-[#1a0d2e] mb-2">
                   {character.name}
                 </h4>
 
                 {/* Character Badge */}
                 <motion.span
-                  className={`character-badge ${character.color} text-sm px-5 py-2`}
+                  className={`character-badge ${character.color} text-sm px-5 py-2 mb-3`}
                   whileHover={{ scale: 1.05 }}
                 >
                   {character.tagline}
                 </motion.span>
+
+                {/* Character Description */}
+                <p className="text-[#4A2C7A] text-sm font-medium mt-3">
+                  {character.description}
+                </p>
               </GlassCard>
             </StaggerItem>
           ))}
@@ -462,7 +476,7 @@ function CharactersSection() {
           className="text-center mt-12"
         >
           <JellyButton variant="pink" jellyIntensity={1.1}>
-            Learn About Noki AI
+            Discover Their Personalities
             <ArrowRightIcon className="w-5 h-5 ml-2" />
           </JellyButton>
         </AnimatedSection>
@@ -488,8 +502,9 @@ function Footer() {
                 The Noki Ai
               </span>
               <p className="text-[#2D1B4E] text-sm leading-relaxed mb-6 font-medium">
-                Creating magical AI companions that bring joy, learning, and
-                friendship to children everywhere.
+                We believe every child deserves a friend who&apos;s always
+                there— one who listens, learns, and grows with them through
+                every chapter of childhood.
               </p>
               <div className="flex gap-3">
                 {[InstagramIcon, FacebookIcon, YoutubeIcon].map((Icon, i) => (
@@ -516,10 +531,10 @@ function Footer() {
                 animation="up"
                 delay={0.2 + colIndex * 0.1}
               >
-                <h5 className="font-heading font-bold text-[#1a0d2e] mb-4">
+                <h5 className="heading-card text-[#1a0d2e] mb-4">
                   {column.title}
                 </h5>
-                <ul className="space-y-3 text-[#2D1B4E] text-sm font-semibold">
+                <ul className="space-y-3 text-[#2D1B4E] text-sm font-medium text-readable">
                   {column.links.map((link) => (
                     <li key={link}>
                       <motion.a
@@ -537,11 +552,12 @@ function Footer() {
 
             {/* Newsletter Column */}
             <AnimatedSection animation="up" delay={0.4}>
-              <h5 className="font-heading font-bold text-[#1a0d2e] mb-4">
-                Stay Updated
+              <h5 className="heading-card text-[#1a0d2e] mb-4">
+                Be First to Know
               </h5>
-              <p className="text-[#2D1B4E] text-sm mb-4 font-semibold">
-                Join our waitlist for exclusive updates and early access.
+              <p className="text-[#2D1B4E] text-sm mb-4 font-medium text-readable">
+                Join 2,000+ families waiting for Noki. Early supporters get
+                exclusive launch pricing.
               </p>
               <div className="flex gap-2">
                 <input

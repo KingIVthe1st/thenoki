@@ -24,32 +24,34 @@ interface JellyButtonProps extends Omit<HTMLMotionProps<"button">, "ref"> {
   children: React.ReactNode;
 }
 
-// Variant styles
+// Variant styles - Enhanced with premium multi-layer shadows
 const variantStyles: Record<JellyVariant, string> = {
   primary: `
     bg-gradient-to-r from-violet-600 to-purple-700
     text-white font-semibold
-    shadow-lg shadow-purple-500/25
+    shadow-[0_4px_12px_rgba(139,92,246,0.4),0_8px_24px_rgba(139,92,246,0.25),0_16px_48px_rgba(139,92,246,0.15),inset_0_1px_0_rgba(255,255,255,0.2)]
   `,
   secondary: `
     bg-white/90 text-purple-900
     border-2 border-purple-200/80
-    shadow-md backdrop-blur-sm
+    shadow-[0_4px_12px_rgba(139,92,246,0.1),0_8px_24px_rgba(139,92,246,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]
+    backdrop-blur-sm
   `,
   pink: `
     bg-gradient-to-r from-pink-500 to-rose-500
     text-white font-semibold
-    shadow-lg shadow-pink-500/30
+    shadow-[0_4px_12px_rgba(236,72,153,0.4),0_8px_24px_rgba(236,72,153,0.25),0_16px_48px_rgba(236,72,153,0.15),inset_0_1px_0_rgba(255,255,255,0.2)]
   `,
   ghost: `
     bg-white/40 backdrop-blur-md
     text-purple-900 font-medium
     border border-white/60
+    shadow-[0_4px_12px_rgba(255,255,255,0.1),0_8px_16px_rgba(139,92,246,0.05),inset_0_1px_0_rgba(255,255,255,0.8)]
   `,
   cyan: `
     bg-gradient-to-r from-cyan-400 to-teal-500
     text-white font-semibold
-    shadow-lg shadow-cyan-500/30
+    shadow-[0_4px_12px_rgba(0,245,255,0.4),0_8px_24px_rgba(0,245,255,0.25),0_16px_48px_rgba(0,245,255,0.15),inset_0_1px_0_rgba(255,255,255,0.2)]
   `,
 };
 

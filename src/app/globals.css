@@ -1,13 +1,39 @@
 /* Google Fonts Import - MUST be first */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Pacifico&family=Playfair+Display:wght@600;700;800&family=Dancing+Script:wght@400;500;600;700&display=swap");
+/* Outfit: Modern geometric sans-serif for body + headings */
+/* Pacifico: Playful script for decorative accents */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Pacifico&family=Dancing+Script:wght@400;500;600;700&display=swap");
 
 @import "tailwindcss";
 
 @theme inline {
-  /* Font Families */
+  /* Font Families - Simplified with Outfit as primary */
   --font-script: "Pacifico", "Dancing Script", cursive;
-  --font-heading: "Playfair Display", Georgia, serif;
-  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-heading: "Outfit", system-ui, sans-serif;
+  --font-body: "Outfit", system-ui, sans-serif;
+
+  /* Typography Scale - Golden Ratio-ish */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+  --text-7xl: 4.5rem; /* 72px */
+
+  /* Line Heights */
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.02em;
 
   /* Brand Colors - Purple */
   --color-noki-purple-deep: #2d1b4e;
@@ -18,12 +44,12 @@
   --color-noki-purple-lavender: #e8dcff;
   --color-noki-purple-glow: #c9a0ff;
 
-  /* Brand Colors - Pink */
-  --color-noki-pink-hot: #ff6b9d;
-  --color-noki-pink-bright: #ff69b4;
-  --color-noki-pink-soft: #ff9ecd;
-  --color-noki-pink-blush: #ffdbe9;
-  --color-noki-pink-mauve: #f2d7ea;
+  /* Brand Colors - Pink (Modern Magenta Palette) */
+  --color-noki-pink-hot: #ec4899; /* Tailwind pink-500 - vibrant magenta */
+  --color-noki-pink-bright: #f472b6; /* Tailwind pink-400 - soft magenta */
+  --color-noki-pink-soft: #f9a8d4; /* Tailwind pink-300 - gentle blush */
+  --color-noki-pink-blush: #fce7f3; /* Tailwind pink-100 - whisper pink */
+  --color-noki-pink-mauve: #fbcfe8; /* Tailwind pink-200 - cotton candy */
 
   /* Brand Colors - Cyan (Eye Glow) */
   --color-noki-cyan-electric: #00e5ff;
@@ -40,7 +66,7 @@
   --shadow-noki-button: 0 4px 16px rgba(45, 27, 78, 0.2);
   --shadow-noki-float: 0 20px 60px rgba(45, 27, 78, 0.1);
   --shadow-noki-glow-cyan: 0 0 20px #5bfff7, 0 0 40px rgba(91, 255, 247, 0.5);
-  --shadow-noki-glow-pink: 0 0 20px #ff69b4, 0 0 40px rgba(255, 105, 180, 0.4);
+  --shadow-noki-glow-pink: 0 0 20px #ec4899, 0 0 40px rgba(236, 72, 153, 0.4);
   --shadow-noki-glow-purple:
     0 0 30px rgba(168, 85, 247, 0.4), 0 0 60px rgba(168, 85, 247, 0.2);
 
@@ -242,10 +268,65 @@ body {
 
 .font-heading {
   font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 .font-body {
   font-family: var(--font-body);
+}
+
+/* Text Shadow Utilities - for readability against dreamy bg */
+.text-shadow-sm {
+  text-shadow:
+    0 1px 2px rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(45, 27, 78, 0.08);
+}
+
+.text-shadow-md {
+  text-shadow:
+    0 2px 4px rgba(255, 255, 255, 0.9),
+    0 4px 8px rgba(45, 27, 78, 0.1);
+}
+
+.text-shadow-lg {
+  text-shadow:
+    0 2px 6px rgba(255, 255, 255, 0.95),
+    0 4px 12px rgba(45, 27, 78, 0.12),
+    0 8px 24px rgba(45, 27, 78, 0.08);
+}
+
+/* Heading styles with better contrast */
+.heading-display {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-shadow:
+    0 2px 6px rgba(255, 255, 255, 0.95),
+    0 4px 12px rgba(45, 27, 78, 0.12);
+}
+
+.heading-section {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-shadow:
+    0 1px 3px rgba(255, 255, 255, 0.9),
+    0 3px 8px rgba(45, 27, 78, 0.1);
+}
+
+.heading-card {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+}
+
+/* Body text with subtle shadow for dreamy bg */
+.text-readable {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
 }
 
 /* Text Gradient */
@@ -271,8 +352,8 @@ body {
   font-size: 3.5rem;
   color: #1a0d2e;
   text-shadow:
-    1px 1px 2px rgba(255, 255, 255, 0.9),
-    2px 2px 4px rgba(45, 27, 78, 0.15);
+    0 2px 4px rgba(255, 255, 255, 0.95),
+    0 4px 8px rgba(45, 27, 78, 0.1);
 }
 
 /* ============================================ */
@@ -366,13 +447,13 @@ body {
 
 /* CTA Button Pink */
 .btn-cta-pink {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff5588 100%);
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
   color: white;
   padding: 14px 32px;
   border-radius: 9999px;
   font-weight: 600;
   font-size: 0.95rem;
-  box-shadow: 0 4px 20px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
   transition: all 0.3s var(--ease-luxury);
   display: inline-flex;
   align-items: center;
@@ -381,7 +462,7 @@ body {
 
 .btn-cta-pink:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 30px rgba(255, 107, 157, 0.5);
+  box-shadow: 0 8px 30px rgba(236, 72, 153, 0.5);
 }
 
 /* ============================================ */
@@ -390,7 +471,7 @@ body {
 
 /* Coming Soon Badge */
 .coming-soon-badge {
-  background: linear-gradient(135deg, #ff6b9d 0%, #ff69b4 100%);
+  background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
   padding: 8px 24px;
   border-radius: 9999px;
   color: white;
@@ -398,7 +479,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
-  box-shadow: 0 4px 15px rgba(255, 107, 157, 0.4);
+  box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);
 }
 
 /* Feature Pill - Premium glass style */
@@ -435,7 +516,7 @@ body {
 }
 
 .character-badge.pink {
-  background: linear-gradient(135deg, #ff6b9d, #ff69b4);
+  background: linear-gradient(135deg, #ec4899, #f472b6);
 }
 
 .character-badge.blue {
@@ -501,7 +582,7 @@ body {
 
 /* Heart Decoration */
 .heart {
-  color: #ff69b4;
+  color: #ec4899;
   animation: float 3s ease-in-out infinite;
 }
 

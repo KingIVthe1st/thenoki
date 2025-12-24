@@ -226,10 +226,17 @@ export function CustomCursor() {
 
   return (
     <>
-      {/* Hide default cursor */}
+      {/*
+        ACCESSIBILITY: Only hide cursor on interactive elements that benefit from custom cursor.
+        Do NOT force cursor:none globally - breaks screen readers, motor impairment tools, etc.
+      */}
       <style jsx global>{`
-        * {
-          cursor: none !important;
+        [data-cursor],
+        [data-cursor] *,
+        a:hover,
+        button:hover,
+        [role="button"]:hover {
+          cursor: none;
         }
       `}</style>
 
