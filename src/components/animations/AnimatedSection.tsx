@@ -123,6 +123,7 @@ export function StaggerItem({ children, className = "" }: StaggerItemProps) {
     return <div className={className}>{children}</div>;
   }
 
+  // NOTE: Removed filter:blur() - Chrome can't GPU-accelerate filter animations
   return (
     <motion.div
       className={className}
@@ -130,12 +131,10 @@ export function StaggerItem({ children, className = "" }: StaggerItemProps) {
         hidden: {
           opacity: 0,
           y: 40,
-          filter: "blur(8px)",
         },
         visible: {
           opacity: 1,
           y: 0,
-          filter: "blur(0px)",
           transition: {
             duration: 0.6,
             ease: [0.19, 1, 0.22, 1],

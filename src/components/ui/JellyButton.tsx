@@ -199,6 +199,12 @@ export function JellyButton({
       style={{
         x: magneticOffset.x,
         y: magneticOffset.y,
+        // GPU containment to prevent animations from causing repaints in other layers
+        contain: "layout paint",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        transform: "translateZ(0)",
       }}
       onPointerDown={handlePointerDown}
       onPointerUp={handlePointerUp}

@@ -116,21 +116,38 @@ function TrackingEye({
           height: 18,
         }}
       >
-        {/* Glowing cyan dot (matches the button eye look) */}
-        <motion.div
+        {/* CHROME FLICKER FIX: Separated glow architecture */}
+        {/* Base eye: static gradient + static shadow (no animation) */}
+        {/* Glow overlay: static intense shadow + animated OPACITY only */}
+
+        {/* Base glowing cyan dot - STATIC (no animation) */}
+        <div
           className="absolute inset-0 rounded-full"
           style={{
             background:
               "radial-gradient(circle at 35% 35%, #00f5ff 0%, #00c8d4 50%, #00a0b0 100%)",
             boxShadow:
               "0 0 15px 3px rgba(0, 245, 255, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.4)",
+            // Force GPU layer
+            backfaceVisibility: "hidden",
+            transform: "translateZ(0)",
+          }}
+        />
+
+        {/* Animated glow overlay - opacity only (GPU-accelerated) */}
+        <motion.div
+          className="absolute -inset-2 rounded-full pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(0, 245, 255, 0.4) 0%, transparent 70%)",
+            filter: "blur(4px)",
+            // Force GPU layer
+            backfaceVisibility: "hidden",
+            transform: "translateZ(0)",
           }}
           animate={{
-            boxShadow: [
-              "0 0 15px 3px rgba(0, 245, 255, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.4)",
-              "0 0 25px 6px rgba(0, 245, 255, 0.8), inset 0 0 12px rgba(255, 255, 255, 0.6)",
-              "0 0 15px 3px rgba(0, 245, 255, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.4)",
-            ],
+            opacity: [0.4, 1, 0.4],
+            scale: [1, 1.15, 1],
           }}
           transition={{
             duration: 2,
@@ -210,9 +227,34 @@ export function EyeTrackingNoki({
   }, []);
 
   return (
-    <div ref={containerRef} className={`relative ${className}`}>
+    <div
+      ref={containerRef}
+      className={`relative ${className}`}
+      style={{
+        // GPU isolation to prevent flicker from other element animations
+        isolation: "isolate",
+        contain: "layout paint",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        transform: "translateZ(0)",
+        WebkitTransform: "translateZ(0)",
+      }}
+    >
       {/* Base Noki Image */}
-      <Image src={src} alt={alt} fill className="object-contain" priority />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-contain"
+        priority
+        style={{
+          // Force image into its own compositing layer
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+        }}
+      />
 
       {/* Eye Tracking Overlay Layer */}
       <div className="absolute inset-0 pointer-events-none">

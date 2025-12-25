@@ -77,6 +77,13 @@ export function MagneticButton({
         x: magneticOffset.x,
         y: magneticOffset.y,
       }}
+      style={{
+        // GPU containment to prevent animations from causing repaints in other layers
+        contain: "layout paint",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
       transition={springs.magnetic}
       whileHover={{
         scale: 1.05,
@@ -150,6 +157,13 @@ export function MagneticIconButton({
       animate={{
         x: magneticOffset.x,
         y: magneticOffset.y,
+      }}
+      style={{
+        // GPU containment to prevent animations from causing repaints in other layers
+        contain: "layout paint",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
       }}
       transition={springs.magnetic}
       whileHover={{

@@ -1,111 +1,109 @@
 "use client";
 
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { useGyroscopeParallax } from "@/components/effects/GyroscopeParallax";
+import { FluffyCloudscape } from "./FluffyCloud";
+import { AmbientMist } from "./CloudScape";
+import { SparkleField } from "./SparkleField";
+import { BokehLights } from "./BokehLights";
+import { MouseLantern } from "./MouseLantern";
+import { GodRays } from "./GodRays";
+import { LivingAir, AmbientDust } from "./LivingAir";
 
 // ============================================
-// BACKGROUND SYSTEM - SINGLE CONTAINER ARCHITECTURE
+// BACKGROUND SYSTEM v4.0 - PREMIUM DREAMSCAPE
 // ============================================
-// CRITICAL: All layers inside ONE fixed container so z-index works predictably
-// This fixes the stacking context issue that caused the gradient to not render
+// ARCHITECTURE: Pure CSS + Framer Motion for GPU-composited, flicker-free animations
+//
+// PREMIUM FEATURES:
+// - Mouse-following "Lantern" volumetric light (interactive)
+// - Rotating God Rays (conic gradient, GPU-only)
+// - Living Air noise grain (organic atmosphere)
+// - Ambient dust particles (depth & atmosphere)
+// - 28 layered fluffy clouds with HERO statement pieces
+// - 12 cinematic bokeh lights for depth-of-field
+// - 36 magical sparkle particles (hearts, stars, diamonds)
+// - Enhanced light rays with cinematic glow
+// - Depth-based atmospheric perspective
+//
+// LAYER STACK (z-index order):
+// z:0  - Gradient Sky (static)
+// z:1  - Light Rays (CSS animation)
+// z:2  - Mouse Lantern (Framer Motion, BEHIND clouds for occlusion)
+// z:3  - Aurora Mesh (CSS animation)
+// z:4-6- Fluffy Clouds (CSS animation)
+// z:7  - God Rays (rotating conic gradient)
+// z:8  - Ambient Mist (CSS animation)
+// z:9  - Sparkle Field (CSS animation)
+// z:10 - Bokeh Lights (CSS animation)
+// z:11 - Bloom Effects (CSS animation)
+// z:12 - Fog Overlay (static)
+// z:13 - Vignette (static)
+// z:15 - Ambient Dust (CSS animation)
+// z:50 - Living Air noise (CSS animation, mix-blend-mode)
 
 export function BackgroundSystem() {
   return (
     <div
       id="background-system"
       className="fixed inset-0 pointer-events-none overflow-hidden"
-      style={{ zIndex: 0 }}
+      style={{
+        zIndex: 0,
+        // FALLBACK: Solid color in case layers fail to render
+        backgroundColor: "#A78BFA",
+        // GPU optimization for container
+        isolation: "isolate",
+        contain: "paint layout",
+      }}
     >
-      {/* z: 0 - Base gradient sky */}
+      {/* z: 0 - Base gradient sky (STATIC - no animation needed) */}
       <GradientSky />
 
-      {/* z: 1 - Subtle light rays */}
+      {/* z: 1 - Enhanced light rays (CSS-only animation) */}
       <LightRays />
 
-      {/* z: 2 - Animated aurora gradient mesh (ENHANCED) */}
+      {/* z: 2 - PREMIUM: Mouse-following "Lantern" volumetric light */}
+      {/* BEHIND clouds for occlusion effect - creates pseudo-3D depth */}
+      <MouseLantern />
+
+      {/* z: 3 - Aurora gradient mesh (CSS-only animation) */}
       <AuroraMesh />
 
-      {/* z: 2.5 - Extra dreamy mist layer */}
-      <DreamyMist />
+      {/* z: 4-6 - DREAMSCAPE: 28 layered fluffy clouds */}
+      <FluffyCloudscape />
 
-      {/* z: 3-7 - ENHANCED Cloud layers with more density */}
-      {/* Deep background clouds - very soft */}
-      <CloudLayer
-        src="/images/clouds/cloud-distant.png"
-        depth={1}
-        opacity={0.85}
-        zIndex={3}
-      />
-      {/* Extra distant layer for depth */}
-      <CloudLayer
-        src="/images/clouds/cloud-main.png"
-        depth={1}
-        opacity={0.5}
-        zIndex={3}
-        offsetX={200}
-        scale={1.3}
-      />
+      {/* z: 8 - PREMIUM: Rotating God Rays (GPU-only conic gradient) */}
+      <GodRays />
 
-      {/* Mid-layer clouds - primary detail */}
-      <CloudLayer
-        src="/images/clouds/cloud-main.png"
-        depth={2}
-        opacity={0.9}
-        zIndex={4}
-      />
-      {/* Extra mid layer offset */}
-      <CloudLayer
-        src="/images/clouds/cloud-distant.png"
-        depth={2}
-        opacity={0.6}
-        zIndex={4}
-        offsetX={-150}
-        scale={1.2}
-      />
+      {/* z: 9 - Ambient mist (CSS-only) */}
+      <AmbientMist />
 
-      {/* Foreground wisps - most movement */}
-      <CloudLayer
-        src="/images/clouds/cloud-wisps.png"
-        depth={3}
-        opacity={0.75}
-        zIndex={5}
-      />
-      {/* Extra wispy layer */}
-      <CloudLayer
-        src="/images/clouds/cloud-wisps.png"
-        depth={3}
-        opacity={0.45}
-        zIndex={6}
-        offsetX={100}
-        scale={1.15}
-      />
+      {/* z: 10 - Magical sparkle particles */}
+      <SparkleField />
 
-      {/* z: 7 - Ethereal mist bands */}
-      <MistBands />
+      {/* z: 11 - Cinematic bokeh lights (depth-of-field) */}
+      <BokehLights />
 
-      {/* z: 8 - ENHANCED Floating particles - MORE of them */}
-      <ParticleField particleCount={35} />
+      {/* z: 11 - Bloom glow effects (CSS-only) */}
+      <BloomEffects />
 
-      {/* z: 9 - ENHANCED Floating light orbs - MORE bokeh */}
-      <FloatingLights lightCount={20} />
-
-      {/* z: 10 - Soft fog overlay */}
+      {/* z: 12 - Soft fog overlay (STATIC) */}
       <FogOverlay />
 
-      {/* z: 11 - Cinematic vignette */}
+      {/* z: 13 - Cinematic vignette (STATIC) */}
       <VignetteOverlay />
 
-      {/* z: 12 - Premium noise texture */}
-      <NoiseOverlay />
+      {/* z: 15 - PREMIUM: Ambient dust particles */}
+      <AmbientDust />
+
+      {/* z: 50 - PREMIUM: Living Air noise overlay */}
+      {/* Very subtle (3.5% opacity) but adds organic "breathing" feel */}
+      <LivingAir />
     </div>
   );
 }
 
 // ============================================
-// GRADIENT SKY - Base layer
+// GRADIENT SKY - Base layer (STATIC)
 // ============================================
 function GradientSky() {
   return (
@@ -113,6 +111,8 @@ function GradientSky() {
       className="absolute inset-0"
       style={{
         zIndex: 0,
+        minWidth: "100vw",
+        minHeight: "100vh",
         background: `linear-gradient(
           165deg,
           #7C3AED 0%,
@@ -127,67 +127,133 @@ function GradientSky() {
           #FCE7F3 88%,
           #FBCFE8 100%
         )`,
+        // GPU optimization
+        willChange: "auto",
+        backfaceVisibility: "hidden",
       }}
     />
   );
 }
 
 // ============================================
-// LIGHT RAYS / GOD RAYS
+// LIGHT RAYS - Pure CSS animation
 // ============================================
 function LightRays() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <motion.div
-      className="absolute"
-      style={{
-        zIndex: 1,
-        top: "-20%",
-        left: "10%",
-        width: "80%",
-        height: "100%",
-        background: `
-          conic-gradient(
-            from 180deg at 50% 0%,
-            transparent 0deg,
-            rgba(255, 255, 255, 0.04) 15deg,
-            transparent 30deg,
-            transparent 60deg,
-            rgba(255, 255, 255, 0.03) 75deg,
-            transparent 90deg,
-            transparent 120deg,
-            rgba(255, 255, 255, 0.035) 135deg,
-            transparent 150deg,
-            transparent 180deg,
-            rgba(255, 255, 255, 0.03) 195deg,
-            transparent 210deg,
-            transparent 240deg,
-            rgba(255, 255, 255, 0.04) 255deg,
-            transparent 270deg,
-            transparent 300deg,
-            rgba(255, 255, 255, 0.03) 315deg,
-            transparent 330deg,
-            transparent 360deg
-          )
-        `,
-        filter: "blur(2px)",
-      }}
-      animate={
-        reducedMotion
-          ? {}
-          : {
-              rotate: [0, 5, -3, 0],
-              opacity: [0.5, 0.8, 0.6, 0.5],
-            }
-      }
-      transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-    />
+    <div className="absolute inset-0" style={{ zIndex: 1 }}>
+      {/* Primary golden rays */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-30%",
+          left: "5%",
+          width: "90%",
+          height: "130%",
+          background: `
+            conic-gradient(
+              from 180deg at 50% 0%,
+              transparent 0deg,
+              rgba(255, 250, 230, 0.12) 10deg,
+              rgba(255, 215, 157, 0.08) 20deg,
+              transparent 35deg,
+              transparent 55deg,
+              rgba(255, 255, 255, 0.1) 70deg,
+              rgba(255, 240, 220, 0.06) 85deg,
+              transparent 100deg,
+              transparent 115deg,
+              rgba(255, 250, 240, 0.09) 130deg,
+              transparent 145deg,
+              transparent 180deg,
+              rgba(255, 245, 235, 0.08) 195deg,
+              transparent 210deg,
+              transparent 230deg,
+              rgba(255, 255, 255, 0.11) 245deg,
+              rgba(255, 220, 180, 0.07) 260deg,
+              transparent 280deg,
+              transparent 300deg,
+              rgba(255, 250, 230, 0.1) 315deg,
+              transparent 335deg,
+              transparent 360deg
+            )
+          `,
+          filter: "blur(3px)",
+          opacity: 0.7,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "rays-pulse 25s ease-in-out infinite",
+        }}
+      />
+
+      {/* Secondary pink rays */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-25%",
+          left: "0%",
+          width: "100%",
+          height: "120%",
+          background: `
+            conic-gradient(
+              from 200deg at 60% 10%,
+              transparent 0deg,
+              rgba(251, 207, 232, 0.08) 25deg,
+              transparent 50deg,
+              transparent 80deg,
+              rgba(244, 114, 182, 0.06) 100deg,
+              transparent 125deg,
+              transparent 160deg,
+              rgba(236, 72, 153, 0.05) 180deg,
+              transparent 205deg,
+              transparent 240deg,
+              rgba(251, 207, 232, 0.07) 260deg,
+              transparent 290deg,
+              transparent 320deg,
+              rgba(244, 114, 182, 0.06) 340deg,
+              transparent 360deg
+            )
+          `,
+          filter: "blur(5px)",
+          opacity: 0.6,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "rays-pulse 30s ease-in-out infinite",
+          animationDelay: "-10s",
+        }}
+      />
+
+      {/* Central glow burst */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-5%",
+          left: "25%",
+          width: "50%",
+          height: "40%",
+          background:
+            "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 250, 240, 0.1) 30%, transparent 70%)",
+          filter: "blur(20px)",
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "glow-breathe 20s ease-in-out infinite",
+        }}
+      />
+    </div>
   );
 }
 
 // ============================================
-// AURORA GRADIENT MESH
+// AURORA MESH - Pure CSS animation
 // ============================================
 function AuroraMesh() {
   const reducedMotion = useReducedMotion();
@@ -195,9 +261,9 @@ function AuroraMesh() {
   return (
     <div className="absolute inset-0" style={{ zIndex: 2 }}>
       {/* Primary purple aurora - top */}
-      <motion.div
-        className="absolute"
+      <div
         style={{
+          position: "absolute",
           top: "-20%",
           left: "-10%",
           width: "70%",
@@ -205,23 +271,19 @@ function AuroraMesh() {
           background:
             "radial-gradient(ellipse at center, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 70%)",
           filter: "blur(100px)",
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "aurora-drift 35s ease-in-out infinite",
         }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [0, 50, -30, 20, 0],
-                y: [0, 30, -20, 10, 0],
-                scale: [1, 1.1, 0.95, 1.05, 1],
-              }
-        }
-        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Secondary pink aurora - bottom right */}
-      <motion.div
-        className="absolute"
+      <div
         style={{
+          position: "absolute",
           bottom: "-10%",
           right: "-15%",
           width: "60%",
@@ -229,28 +291,20 @@ function AuroraMesh() {
           background:
             "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.35) 0%, rgba(244, 114, 182, 0.15) 40%, transparent 70%)",
           filter: "blur(120px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [0, -40, 30, -20, 0],
-                y: [0, -30, 20, -10, 0],
-                scale: [1, 1.15, 0.9, 1.08, 1],
-              }
-        }
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 5,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "aurora-drift 40s ease-in-out infinite",
+          animationDelay: "-15s",
         }}
       />
 
       {/* Cyan accent - center left */}
-      <motion.div
-        className="absolute"
+      <div
         style={{
+          position: "absolute",
           top: "30%",
           left: "-5%",
           width: "40%",
@@ -258,27 +312,20 @@ function AuroraMesh() {
           background:
             "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.2) 0%, transparent 60%)",
           filter: "blur(80px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                scale: [1, 1.2, 1],
-                opacity: [0.6, 0.9, 0.6],
-              }
-        }
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 10,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "glow-breathe 25s ease-in-out infinite",
+          animationDelay: "-8s",
         }}
       />
 
       {/* Lavender mist - center */}
-      <motion.div
-        className="absolute"
+      <div
         style={{
+          position: "absolute",
           top: "40%",
           left: "30%",
           width: "50%",
@@ -286,27 +333,20 @@ function AuroraMesh() {
           background:
             "radial-gradient(ellipse at center, rgba(196, 181, 253, 0.25) 0%, rgba(221, 214, 254, 0.1) 50%, transparent 70%)",
           filter: "blur(100px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [0, 20, -15, 0],
-                scale: [1, 1.05, 0.98, 1],
-              }
-        }
-        transition={{
-          duration: 18,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 8,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "aurora-drift 30s ease-in-out infinite",
+          animationDelay: "-20s",
         }}
       />
 
       {/* Warm peach glow - bottom center */}
-      <motion.div
-        className="absolute"
+      <div
         style={{
+          position: "absolute",
           bottom: "0%",
           left: "20%",
           width: "60%",
@@ -314,105 +354,13 @@ function AuroraMesh() {
           background:
             "radial-gradient(ellipse at bottom, rgba(251, 207, 232, 0.4) 0%, rgba(252, 231, 243, 0.2) 40%, transparent 70%)",
           filter: "blur(80px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                opacity: [0.7, 1, 0.7],
-              }
-        }
-        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
-      />
-    </div>
-  );
-}
-
-// ============================================
-// DREAMY MIST - Extra ethereal atmosphere
-// ============================================
-function DreamyMist() {
-  const reducedMotion = useReducedMotion();
-
-  return (
-    <div className="absolute inset-0" style={{ zIndex: 2 }}>
-      {/* Soft pink mist - left side */}
-      <motion.div
-        className="absolute"
-        style={{
-          top: "20%",
-          left: "-20%",
-          width: "80%",
-          height: "60%",
-          background:
-            "radial-gradient(ellipse at center, rgba(251, 207, 232, 0.5) 0%, rgba(252, 231, 243, 0.25) 40%, transparent 70%)",
-          filter: "blur(60px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [0, 40, -20, 30, 0],
-                y: [0, 20, -15, 10, 0],
-                opacity: [0.6, 0.8, 0.5, 0.7, 0.6],
-              }
-        }
-        transition={{ duration: 35, repeat: Infinity, ease: "easeInOut" }}
-      />
-
-      {/* Soft lavender mist - right side */}
-      <motion.div
-        className="absolute"
-        style={{
-          top: "40%",
-          right: "-15%",
-          width: "70%",
-          height: "50%",
-          background:
-            "radial-gradient(ellipse at center, rgba(221, 214, 254, 0.45) 0%, rgba(237, 233, 254, 0.2) 50%, transparent 70%)",
-          filter: "blur(70px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [0, -30, 20, -15, 0],
-                opacity: [0.5, 0.7, 0.4, 0.65, 0.5],
-              }
-        }
-        transition={{
-          duration: 28,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 5,
-        }}
-      />
-
-      {/* Ethereal white mist - center floating */}
-      <motion.div
-        className="absolute"
-        style={{
-          top: "10%",
-          left: "30%",
-          width: "60%",
-          height: "40%",
-          background:
-            "radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 75%)",
-          filter: "blur(50px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                y: [0, -25, 10, -15, 0],
-                scale: [1, 1.1, 0.95, 1.05, 1],
-              }
-        }
-        transition={{
-          duration: 22,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 10,
+          willChange: reducedMotion ? "auto" : "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: reducedMotion
+            ? "none"
+            : "glow-breathe 20s ease-in-out infinite",
+          animationDelay: "-5s",
         }}
       />
     </div>
@@ -420,83 +368,71 @@ function DreamyMist() {
 }
 
 // ============================================
-// MIST BANDS - Horizontal ethereal streaks
+// BLOOM EFFECTS - Pure CSS animation
 // ============================================
-function MistBands() {
+function BloomEffects() {
   const reducedMotion = useReducedMotion();
 
-  return (
-    <div className="absolute inset-0" style={{ zIndex: 7 }}>
-      {/* Top mist band */}
-      <motion.div
-        className="absolute left-0 right-0"
-        style={{
-          top: "15%",
-          height: "12%",
-          background:
-            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 20%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.25) 80%, transparent 100%)",
-          filter: "blur(30px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [-50, 50, -30, 40, -50],
-                opacity: [0.4, 0.6, 0.35, 0.55, 0.4],
-              }
-        }
-        transition={{ duration: 40, repeat: Infinity, ease: "easeInOut" }}
-      />
+  if (reducedMotion) return null;
 
-      {/* Middle mist band */}
-      <motion.div
-        className="absolute left-0 right-0"
+  return (
+    <div
+      className="absolute inset-0 pointer-events-none"
+      style={{ zIndex: 11 }}
+    >
+      {/* Large pink bloom - bottom right */}
+      <div
         style={{
-          top: "50%",
-          height: "15%",
+          position: "absolute",
+          bottom: "10%",
+          right: "15%",
+          width: "30vw",
+          height: "30vw",
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(251,207,232,0.2) 30%, rgba(221,214,254,0.25) 70%, transparent 100%)",
+            "radial-gradient(circle, rgba(236,72,153,0.25) 0%, rgba(236,72,153,0.1) 40%, transparent 70%)",
           filter: "blur(40px)",
-        }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [30, -40, 20, -30, 30],
-                opacity: [0.35, 0.5, 0.3, 0.45, 0.35],
-              }
-        }
-        transition={{
-          duration: 35,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 8,
+          willChange: "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: "bloom-pulse 18s ease-in-out infinite",
         }}
       />
 
-      {/* Bottom mist band */}
-      <motion.div
-        className="absolute left-0 right-0"
+      {/* Large purple bloom - top left */}
+      <div
         style={{
-          bottom: "20%",
-          height: "10%",
+          position: "absolute",
+          top: "5%",
+          left: "10%",
+          width: "35vw",
+          height: "35vw",
           background:
-            "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 25%, rgba(196,181,253,0.2) 50%, rgba(255,255,255,0.3) 75%, transparent 100%)",
-          filter: "blur(25px)",
+            "radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0.1) 45%, transparent 70%)",
+          filter: "blur(50px)",
+          willChange: "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: "bloom-pulse 22s ease-in-out infinite",
+          animationDelay: "-8s",
         }}
-        animate={
-          reducedMotion
-            ? {}
-            : {
-                x: [-30, 60, -20, 40, -30],
-                opacity: [0.3, 0.5, 0.25, 0.4, 0.3],
-              }
-        }
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 15,
+      />
+
+      {/* Medium cyan bloom - center */}
+      <div
+        style={{
+          position: "absolute",
+          top: "40%",
+          left: "45%",
+          width: "25vw",
+          height: "25vw",
+          background:
+            "radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 60%)",
+          filter: "blur(35px)",
+          willChange: "opacity",
+          backfaceVisibility: "hidden",
+          transform: "translateZ(0)",
+          animation: "bloom-pulse 20s ease-in-out infinite",
+          animationDelay: "-12s",
         }}
       />
     </div>
@@ -504,14 +440,14 @@ function MistBands() {
 }
 
 // ============================================
-// FOG OVERLAY - Soft atmospheric haze
+// FOG OVERLAY - Static atmospheric haze
 // ============================================
 function FogOverlay() {
   return (
     <div
       className="absolute inset-0"
       style={{
-        zIndex: 10,
+        zIndex: 12,
         background: `
           linear-gradient(
             180deg,
@@ -529,331 +465,14 @@ function FogOverlay() {
 }
 
 // ============================================
-// CLOUD LAYER - Parallax with AI-generated images
-// ============================================
-interface CloudLayerProps {
-  src: string;
-  depth: number; // 1 = far (slow), 3 = near (fast)
-  opacity?: number;
-  zIndex: number;
-  offsetX?: number; // Horizontal offset for variety
-  scale?: number; // Scale multiplier for variety
-}
-
-function CloudLayer({
-  src,
-  depth,
-  opacity = 0.8,
-  zIndex,
-  offsetX = 0,
-  scale = 1,
-}: CloudLayerProps) {
-  const { scrollYProgress } = useScroll();
-  const reducedMotion = useReducedMotion();
-  const gyroscope = useGyroscopeParallax();
-
-  // Parallax intensity based on depth
-  const parallaxMultiplier = depth === 1 ? 80 : depth === 2 ? 160 : 280;
-  const rawY = useTransform(scrollYProgress, [0, 1], [0, -parallaxMultiplier]);
-  const y = useSpring(rawY, { stiffness: 50, damping: 20 });
-
-  // Horizontal drift animation
-  const [driftX, setDriftX] = useState(0);
-
-  // Gyroscope offset (mobile tilt parallax)
-  const gyroMultiplier = depth === 1 ? 0.3 : depth === 2 ? 0.6 : 1;
-  const [gyroOffset, setGyroOffset] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    if (!gyroscope?.isActive) return;
-
-    const updateGyro = () => {
-      setGyroOffset({
-        x: (gyroscope.x?.get() ?? 0) * gyroMultiplier,
-        y: (gyroscope.y?.get() ?? 0) * gyroMultiplier,
-      });
-    };
-
-    // Subscribe to gyroscope changes
-    const unsubX = gyroscope.x?.on("change", updateGyro);
-    const unsubY = gyroscope.y?.on("change", updateGyro);
-
-    return () => {
-      unsubX?.();
-      unsubY?.();
-    };
-  }, [gyroscope, gyroMultiplier]);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const driftSpeed = depth === 1 ? 0.3 : depth === 2 ? 0.5 : 0.8;
-    let animationId: number;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const elapsed = (Date.now() - startTime) / 1000;
-      const drift = Math.sin(elapsed * driftSpeed * 0.1) * (20 / depth);
-      setDriftX(drift);
-      animationId = requestAnimationFrame(animate);
-    };
-
-    animate();
-    return () => cancelAnimationFrame(animationId);
-  }, [depth, reducedMotion]);
-
-  // Use blend mode to let gradient show through
-  // "soft-light" creates a dreamy blend, "screen" brightens, "overlay" adds contrast
-  const blendMode =
-    depth === 1 ? "soft-light" : depth === 2 ? "overlay" : "soft-light";
-
-  // Combine drift + gyroscope offset + custom offset
-  const totalOffsetX = driftX + gyroOffset.x + offsetX;
-  const totalOffsetY = gyroOffset.y;
-
-  // Calculate final scale
-  const finalScale = (1.1 + (3 - depth) * 0.05) * scale;
-
-  return (
-    <motion.div
-      className="absolute inset-0"
-      style={{
-        zIndex,
-        y: reducedMotion ? totalOffsetY : y,
-        x: totalOffsetX,
-        opacity,
-        mixBlendMode: blendMode,
-      }}
-    >
-      <Image
-        src={src}
-        alt=""
-        fill
-        className="object-cover"
-        style={{
-          objectPosition: "center",
-          transform: `scale(${finalScale}) translateY(${totalOffsetY}px)`,
-        }}
-        priority={depth === 2}
-      />
-    </motion.div>
-  );
-}
-
-// ============================================
-// PARTICLE FIELD - Hearts, stars, sparkles
-// ============================================
-interface ParticleFieldProps {
-  particleCount?: number;
-}
-
-function ParticleField({ particleCount = 20 }: ParticleFieldProps) {
-  const reducedMotion = useReducedMotion();
-  const [particles, setParticles] = useState<
-    Array<{
-      id: number;
-      x: number;
-      y: number;
-      size: number;
-      type: "heart" | "star" | "sparkle" | "circle";
-      delay: number;
-      duration: number;
-      color: string;
-    }>
-  >([]);
-
-  useEffect(() => {
-    const types = ["heart", "star", "sparkle", "circle"] as const;
-    // Updated colors using new magenta palette
-    const colors = {
-      heart: ["#ec4899", "#f472b6", "#db2777"], // Modern magenta hearts
-      star: ["#ffffff", "#fef3c7", "#ddd6fe"],
-      sparkle: ["#ffffff", "#c4b5fd", "#fbcfe8"],
-      circle: [
-        "rgba(255,255,255,0.6)",
-        "rgba(196,181,253,0.5)",
-        "rgba(236,72,153,0.3)",
-      ],
-    };
-
-    const generated = Array.from({ length: particleCount }, (_, i) => {
-      const type = types[Math.floor(Math.random() * types.length)];
-      return {
-        id: i,
-        x: Math.random() * 100,
-        y: Math.random() * 100,
-        size:
-          type === "heart" ? 12 + Math.random() * 10 : 6 + Math.random() * 8,
-        type,
-        delay: Math.random() * 8,
-        duration: 12 + Math.random() * 18,
-        color: colors[type][Math.floor(Math.random() * colors[type].length)],
-      };
-    });
-    setParticles(generated);
-  }, []);
-
-  if (reducedMotion || particles.length === 0) return null;
-
-  return (
-    <div className="absolute inset-0" style={{ zIndex: 6 }}>
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-          }}
-          animate={{
-            y: [0, -40, -80, -40, 0],
-            x: [0, 15, -10, 20, 0],
-            opacity: [0.4, 0.9, 0.6, 0.8, 0.4],
-            scale: [1, 1.2, 0.9, 1.1, 1],
-          }}
-          transition={{
-            duration: p.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: p.delay,
-          }}
-        >
-          <ParticleIcon type={p.type} size={p.size} color={p.color} />
-        </motion.div>
-      ))}
-    </div>
-  );
-}
-
-// Particle icons
-function ParticleIcon({
-  type,
-  size,
-  color,
-}: {
-  type: string;
-  size: number;
-  color: string;
-}) {
-  if (type === "heart") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-      </svg>
-    );
-  }
-  if (type === "star") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
-      </svg>
-    );
-  }
-  if (type === "sparkle") {
-    return (
-      <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
-        <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" />
-      </svg>
-    );
-  }
-  return (
-    <div
-      style={{
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        backgroundColor: color,
-        boxShadow: `0 0 ${size}px ${color}`,
-      }}
-    />
-  );
-}
-
-// ============================================
-// FLOATING LIGHTS - Bokeh effect (ENHANCED)
-// ============================================
-interface FloatingLightsProps {
-  lightCount?: number;
-}
-
-function FloatingLights({ lightCount = 12 }: FloatingLightsProps) {
-  const reducedMotion = useReducedMotion();
-  const [lights, setLights] = useState<
-    Array<{
-      id: number;
-      x: number;
-      y: number;
-      size: number;
-      duration: number;
-      delay: number;
-      color: string;
-    }>
-  >([]);
-
-  useEffect(() => {
-    // Variety of dreamy light colors
-    const lightColors = [
-      "rgba(255,255,255,0.9)",
-      "rgba(255,255,255,0.7)",
-      "rgba(251,207,232,0.6)", // Pink tint
-      "rgba(221,214,254,0.6)", // Lavender tint
-      "rgba(196,181,253,0.5)", // Purple tint
-    ];
-
-    const generated = Array.from({ length: lightCount }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: 4 + Math.random() * 10,
-      duration: 15 + Math.random() * 15,
-      delay: Math.random() * 10,
-      color: lightColors[Math.floor(Math.random() * lightColors.length)],
-    }));
-    setLights(generated);
-  }, [lightCount]);
-
-  if (reducedMotion || lights.length === 0) return null;
-
-  return (
-    <div className="absolute inset-0" style={{ zIndex: 7 }}>
-      {lights.map((light) => (
-        <motion.div
-          key={light.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${light.x}%`,
-            top: `${light.y}%`,
-            width: light.size,
-            height: light.size,
-            background: `radial-gradient(circle, ${light.color} 0%, transparent 70%)`,
-            boxShadow: `0 0 ${light.size * 3}px ${light.color.replace(/[\d.]+\)$/, "0.5)")}`,
-          }}
-          animate={{
-            y: [0, -60, -120, -60, 0],
-            opacity: [0.3, 0.8, 0.5, 0.9, 0.3],
-            scale: [1, 1.4, 0.8, 1.2, 1],
-          }}
-          transition={{
-            duration: light.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: light.delay,
-          }}
-        />
-      ))}
-    </div>
-  );
-}
-
-// ============================================
-// VIGNETTE OVERLAY - Cinematic depth
+// VIGNETTE OVERLAY - Static cinematic depth
 // ============================================
 function VignetteOverlay() {
   return (
     <div
       className="absolute inset-0"
       style={{
-        zIndex: 8,
+        zIndex: 13,
         background: `radial-gradient(
           ellipse 80% 80% at 50% 50%,
           transparent 0%,
@@ -861,24 +480,6 @@ function VignetteOverlay() {
           rgba(124, 58, 237, 0.08) 80%,
           rgba(91, 33, 182, 0.15) 100%
         )`,
-      }}
-    />
-  );
-}
-
-// ============================================
-// NOISE OVERLAY - Premium texture
-// ============================================
-function NoiseOverlay() {
-  return (
-    <div
-      className="absolute inset-0"
-      style={{
-        zIndex: 9,
-        opacity: 0.06,
-        mixBlendMode: "overlay",
-        backgroundImage: `url("/images/textures/noise-grain.png")`,
-        backgroundRepeat: "repeat",
       }}
     />
   );

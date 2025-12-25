@@ -19,16 +19,18 @@ export const easings = {
 
 // === REVEAL ANIMATIONS ===
 
+// NOTE: Removed filter:blur() from all animation variants
+// Chrome cannot GPU-accelerate filter animations, causing jank.
+// The opacity + transform combo is smooth and still looks premium.
+
 export const fadeInUp: Variants = {
   initial: {
     opacity: 0,
     y: 60,
-    filter: "blur(10px)",
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -40,12 +42,10 @@ export const fadeInDown: Variants = {
   initial: {
     opacity: 0,
     y: -40,
-    filter: "blur(8px)",
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       ease: easings.luxury,
@@ -57,12 +57,10 @@ export const fadeInScale: Variants = {
   initial: {
     opacity: 0,
     scale: 0.85,
-    filter: "blur(12px)",
   },
   animate: {
     opacity: 1,
     scale: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.9,
       ease: easings.luxury,
@@ -74,12 +72,10 @@ export const slideInLeft: Variants = {
   initial: {
     opacity: 0,
     x: -100,
-    filter: "blur(8px)",
   },
   animate: {
     opacity: 1,
     x: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -91,12 +87,10 @@ export const slideInRight: Variants = {
   initial: {
     opacity: 0,
     x: 100,
-    filter: "blur(8px)",
   },
   animate: {
     opacity: 1,
     x: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -130,12 +124,10 @@ export const staggerItem: Variants = {
   initial: {
     opacity: 0,
     y: 40,
-    filter: "blur(8px)",
   },
   animate: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.6,
       ease: easings.luxury,
@@ -168,13 +160,11 @@ export const wordReveal: Variants = {
     opacity: 0,
     y: 30,
     rotateX: -45,
-    filter: "blur(4px)",
   },
   animate: (i: number) => ({
     opacity: 1,
     y: 0,
     rotateX: 0,
-    filter: "blur(0px)",
     transition: {
       duration: 0.7,
       delay: i * 0.1,
@@ -367,12 +357,10 @@ export const scrollReveal: Variants = {
   offscreen: {
     y: 80,
     opacity: 0,
-    filter: "blur(12px)",
   },
   onscreen: {
     y: 0,
     opacity: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -384,12 +372,10 @@ export const scrollRevealLeft: Variants = {
   offscreen: {
     x: -80,
     opacity: 0,
-    filter: "blur(8px)",
   },
   onscreen: {
     x: 0,
     opacity: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -401,12 +387,10 @@ export const scrollRevealRight: Variants = {
   offscreen: {
     x: 80,
     opacity: 0,
-    filter: "blur(8px)",
   },
   onscreen: {
     x: 0,
     opacity: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.8,
       ease: easings.luxury,
@@ -418,12 +402,10 @@ export const scrollRevealScale: Variants = {
   offscreen: {
     scale: 0.8,
     opacity: 0,
-    filter: "blur(15px)",
   },
   onscreen: {
     scale: 1,
     opacity: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 0.9,
       ease: easings.luxury,

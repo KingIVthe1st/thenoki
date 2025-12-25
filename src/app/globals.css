@@ -1,15 +1,18 @@
-/* Google Fonts Import - MUST be first */
-/* Outfit: Modern geometric sans-serif for body + headings */
-/* Pacifico: Playful script for decorative accents */
-@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Pacifico&family=Dancing+Script:wght@400;500;600;700&display=swap");
+/* ============================================ */
+/* FONTS - Loaded via next/font/google in layout.tsx */
+/* ============================================ */
+/* CSS variables --font-outfit, --font-pacifico, --font-dancing-script */
+/* are set on <html> element by Next.js font system */
+/* This eliminates CLS from font swapping! */
 
 @import "tailwindcss";
 
 @theme inline {
-  /* Font Families - Simplified with Outfit as primary */
-  --font-script: "Pacifico", "Dancing Script", cursive;
-  --font-heading: "Outfit", system-ui, sans-serif;
-  --font-body: "Outfit", system-ui, sans-serif;
+  /* Font Families - Using next/font CSS variables from layout.tsx */
+  /* var(--font-*) resolves to the font-family name set by next/font */
+  --font-script: var(--font-pacifico), var(--font-dancing-script), cursive;
+  --font-heading: var(--font-outfit), system-ui, sans-serif;
+  --font-body: var(--font-outfit), system-ui, sans-serif;
 
   /* Typography Scale - Golden Ratio-ish */
   --text-xs: 0.75rem; /* 12px */
@@ -115,19 +118,17 @@
   }
 }
 
+/* CHROME FLICKER FIX: Removed box-shadow animation - uses opacity only */
+/* box-shadow animations trigger paint operations every frame */
 @keyframes glow-pulse {
   0%,
   100% {
-    box-shadow:
-      0 0 20px #5bfff7,
-      0 0 40px rgba(91, 255, 247, 0.5);
     opacity: 1;
+    transform: scale(1);
   }
   50% {
-    box-shadow:
-      0 0 30px #5bfff7,
-      0 0 60px rgba(91, 255, 247, 0.7);
-    opacity: 0.8;
+    opacity: 0.7;
+    transform: scale(1.05);
   }
 }
 
@@ -164,15 +165,16 @@
   }
 }
 
+/* CHROME FLICKER FIX: Removed box-shadow animation - uses opacity only */
 @keyframes pulse-glow {
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    opacity: 0.6;
+    transform: scale(1);
   }
   50% {
-    box-shadow:
-      0 0 40px rgba(168, 85, 247, 0.5),
-      0 0 60px rgba(236, 72, 153, 0.3);
+    opacity: 1;
+    transform: scale(1.08);
   }
 }
 
@@ -184,6 +186,644 @@
   50% {
     background-position: 100% 50%;
   }
+}
+
+/* ============================================ */
+/* CLOUD DREAMSCAPE ANIMATIONS (GPU Compositor) */
+/* ============================================ */
+/* These use ONLY transform and opacity for flicker-free performance */
+
+/* Organic floating movement - creates natural drift */
+@keyframes cloud-float-organic {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(2%, 3%, 0) rotate(0.3deg);
+  }
+  50% {
+    transform: translate3d(4%, 1%, 0) rotate(0deg);
+  }
+  75% {
+    transform: translate3d(1%, -2%, 0) rotate(-0.3deg);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+}
+
+/* Gentle breathing/pulsing - creates depth illusion */
+@keyframes cloud-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: var(--cloud-opacity, 0.7);
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: calc(var(--cloud-opacity, 0.7) * 1.1);
+  }
+}
+
+/* Slow horizontal drift for background clouds */
+@keyframes cloud-drift-slow {
+  0% {
+    transform: translate3d(-3%, 0, 0);
+  }
+  50% {
+    transform: translate3d(3%, 1%, 0);
+  }
+  100% {
+    transform: translate3d(-3%, 0, 0);
+  }
+}
+
+/* Faster drift for foreground elements */
+@keyframes cloud-drift-fast {
+  0% {
+    transform: translate3d(-5%, 0, 0);
+  }
+  50% {
+    transform: translate3d(5%, -1%, 0);
+  }
+  100% {
+    transform: translate3d(-5%, 0, 0);
+  }
+}
+
+/* Ethereal fade pulse for mist layers */
+@keyframes mist-pulse {
+  0%,
+  100% {
+    opacity: var(--mist-opacity, 0.4);
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    opacity: calc(var(--mist-opacity, 0.4) * 1.3);
+    transform: translate3d(1%, -1%, 0);
+  }
+}
+
+/* Slow horizontal mist drift */
+@keyframes mist-drift {
+  0% {
+    transform: translate3d(-2%, 0, 0);
+    opacity: var(--mist-opacity, 0.35);
+  }
+  33% {
+    transform: translate3d(1%, 1%, 0);
+    opacity: calc(var(--mist-opacity, 0.35) * 1.2);
+  }
+  66% {
+    transform: translate3d(2%, -0.5%, 0);
+    opacity: var(--mist-opacity, 0.35);
+  }
+  100% {
+    transform: translate3d(-2%, 0, 0);
+    opacity: var(--mist-opacity, 0.35);
+  }
+}
+
+/* Aurora ribbon wave */
+@keyframes aurora-wave {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateX(2%) scaleY(1.05);
+    opacity: 0.7;
+  }
+}
+
+/* Particle float for hearts/sparkles */
+@keyframes particle-float {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--drift-x, 20px), var(--drift-y, -100px), 0)
+      rotate(var(--rotation, 45deg));
+    opacity: 0;
+  }
+}
+
+/* Light orb glow pulse */
+@keyframes orb-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: var(--orb-opacity, 0.6);
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: calc(var(--orb-opacity, 0.6) * 1.2);
+  }
+}
+
+/* ============================================ */
+/* BACKGROUND SYSTEM CSS ANIMATIONS            */
+/* ============================================ */
+/* These replace Framer Motion for flicker-free performance */
+
+/* Light rays gentle pulse - opacity only for GPU optimization */
+@keyframes rays-pulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Aurora drift - very subtle opacity shift */
+@keyframes aurora-drift {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  33% {
+    opacity: 0.9;
+  }
+  66% {
+    opacity: 0.6;
+  }
+}
+
+/* Glow breathing effect - soft pulsing */
+@keyframes glow-breathe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Bloom pulse effect - gentle opacity animation */
+@keyframes bloom-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* ============================================ */
+/* DREAMSCAPE 2.0 CLOUD ANIMATIONS             */
+/* ============================================ */
+/* Ultra-slow, majestic movements for epic scale */
+
+/* Majestic slow drift - for distant background clouds */
+@keyframes cloud-drift-majestic {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: var(--cloud-opacity, 1);
+  }
+  25% {
+    transform: translate3d(1.5%, 0.5%, 0) scale(1.01);
+    opacity: calc(var(--cloud-opacity, 1) * 1.05);
+  }
+  50% {
+    transform: translate3d(2.5%, -0.5%, 0) scale(1.02);
+    opacity: var(--cloud-opacity, 1);
+  }
+  75% {
+    transform: translate3d(1%, -1%, 0) scale(1.01);
+    opacity: calc(var(--cloud-opacity, 1) * 0.95);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: var(--cloud-opacity, 1);
+  }
+}
+
+/* Gentle floating for mid-layer clouds */
+@keyframes cloud-float-gentle {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+    opacity: var(--cloud-opacity, 1);
+  }
+  33% {
+    transform: translate3d(1%, 1.5%, 0);
+    opacity: calc(var(--cloud-opacity, 1) * 1.08);
+  }
+  66% {
+    transform: translate3d(-0.5%, 0.5%, 0);
+    opacity: var(--cloud-opacity, 1);
+  }
+}
+
+/* Deep breathing for volumetric effect */
+@keyframes cloud-breathe-deep {
+  0%,
+  100% {
+    transform: scale(1) translate3d(0, 0, 0);
+    opacity: var(--cloud-opacity, 1);
+  }
+  50% {
+    transform: scale(1.04) translate3d(0.5%, -0.5%, 0);
+    opacity: calc(var(--cloud-opacity, 1) * 1.12);
+  }
+}
+
+/* Magical glow pulse for accent clouds */
+/* PERFORMANCE FIX: No filter animation - blur is applied statically */
+/* Only animating transform + opacity (GPU-composited, no repaints) */
+@keyframes cloud-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1) rotate(0.01deg); /* Sub-pixel fix for Chrome */
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.08) rotate(0.01deg);
+  }
+}
+
+/* ============================================ */
+/* SPARKLE PARTICLE SYSTEM                     */
+/* ============================================ */
+/* CSS-only magical particles */
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+    transform: scale(1) rotate(90deg);
+  }
+  30% {
+    opacity: 0.7;
+    transform: scale(0.8) rotate(180deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2) rotate(270deg);
+  }
+  70% {
+    opacity: 0.5;
+    transform: scale(0.9) rotate(360deg);
+  }
+  85% {
+    opacity: 0.8;
+    transform: scale(1) rotate(450deg);
+  }
+}
+
+@keyframes sparkle-float-up {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translateY(-10px) scale(1);
+  }
+  80% {
+    opacity: 0.8;
+    transform: translateY(-40px) scale(0.9);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.5);
+  }
+}
+
+/* Shimmer effect - ethereal glow trail */
+/* PERFORMANCE FIX: Removed filter animation - GPU-only transforms */
+@keyframes sparkle-shimmer {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8) rotate(0deg) rotate3d(0, 0, 1, 0.01deg);
+  }
+  25% {
+    opacity: 1;
+    transform: scale(1.1) rotate(90deg) rotate3d(0, 0, 1, 0.01deg);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9) rotate(180deg) rotate3d(0, 0, 1, 0.01deg);
+  }
+  75% {
+    opacity: 1;
+    transform: scale(1.2) rotate(270deg) rotate3d(0, 0, 1, 0.01deg);
+  }
+}
+
+/* PERFORMANCE FIX: Removed box-shadow animation - causes repaints */
+/* Using larger scale + opacity to simulate glow intensity */
+@keyframes sparkle-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.7) rotate3d(0, 0, 1, 0.01deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15) rotate3d(0, 0, 1, 0.01deg);
+  }
+}
+
+@keyframes heart-float {
+  0% {
+    opacity: 0;
+    transform: translateY(0) scale(0.3) rotate(-15deg);
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(-5px) scale(1) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-25px) scale(1.1) rotate(5deg);
+  }
+  90% {
+    opacity: 0.6;
+    transform: translateY(-50px) scale(0.9) rotate(-5deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(0.5) rotate(-10deg);
+  }
+}
+
+@keyframes star-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 0.5;
+  }
+}
+
+/* ============================================ */
+/* LEVEL 20 DREAMSCAPE: BOKEH LIGHTS           */
+/* ============================================ */
+/* Cinematic depth-of-field effect - large soft glowing orbs */
+/* Creates the "expensive camera" aesthetic */
+
+/* Bokeh float - gentle drifting with opacity shift */
+/* CHROME OPTIMIZED: Only transform + opacity (GPU composited) */
+@keyframes bokeh-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateZ(0) translate(0, 0)
+      rotate(0.01deg);
+    opacity: var(--bokeh-opacity, 0.6);
+  }
+  25% {
+    transform: translate(-50%, -50%) translateZ(0) translate(3%, 2%)
+      rotate(0.01deg);
+    opacity: calc(var(--bokeh-opacity, 0.6) * 1.15);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateZ(0) translate(-2%, 4%)
+      rotate(0.01deg);
+    opacity: var(--bokeh-opacity, 0.6);
+  }
+  75% {
+    transform: translate(-50%, -50%) translateZ(0) translate(-4%, -2%)
+      rotate(0.01deg);
+    opacity: calc(var(--bokeh-opacity, 0.6) * 0.9);
+  }
+}
+
+/* Bokeh pulse - rhythmic size and glow changes */
+/* CHROME OPTIMIZED: Only transform + opacity (GPU composited) */
+@keyframes bokeh-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateZ(0) scale(1) rotate(0.01deg);
+    opacity: var(--bokeh-opacity, 0.6);
+  }
+  33% {
+    transform: translate(-50%, -50%) translateZ(0) scale(1.08) rotate(0.01deg);
+    opacity: calc(var(--bokeh-opacity, 0.6) * 1.2);
+  }
+  66% {
+    transform: translate(-50%, -50%) translateZ(0) scale(0.95) rotate(0.01deg);
+    opacity: calc(var(--bokeh-opacity, 0.6) * 0.85);
+  }
+}
+
+/* ============================================ */
+/* LEVEL 20 DREAMSCAPE: FOREGROUND WISPS       */
+/* ============================================ */
+/* "Fog Sandwich" technique - clouds IN FRONT of content */
+/* Creates volumetric depth - you're floating INSIDE the cloud */
+
+/* Wisp drift - slow horizontal wandering */
+@keyframes wisp-drift {
+  0%,
+  100% {
+    transform: translateZ(0) translate(0, 0);
+    opacity: var(--wisp-opacity, 0.5);
+  }
+  20% {
+    transform: translateZ(0) translate(2%, 1%);
+    opacity: calc(var(--wisp-opacity, 0.5) * 1.1);
+  }
+  40% {
+    transform: translateZ(0) translate(4%, -1%);
+    opacity: var(--wisp-opacity, 0.5);
+  }
+  60% {
+    transform: translateZ(0) translate(2%, -2%);
+    opacity: calc(var(--wisp-opacity, 0.5) * 0.9);
+  }
+  80% {
+    transform: translateZ(0) translate(-1%, -0.5%);
+    opacity: calc(var(--wisp-opacity, 0.5) * 1.05);
+  }
+}
+
+/* Wisp breathe - subtle scale pulsing for organic feel */
+@keyframes wisp-breathe {
+  0%,
+  100% {
+    transform: translateZ(0) scale(1);
+    opacity: var(--wisp-opacity, 0.5);
+  }
+  30% {
+    transform: translateZ(0) scale(1.03);
+    opacity: calc(var(--wisp-opacity, 0.5) * 1.15);
+  }
+  60% {
+    transform: translateZ(0) scale(0.97);
+    opacity: calc(var(--wisp-opacity, 0.5) * 0.88);
+  }
+}
+
+/* ============================================ */
+/* SCROLL-DRIVEN PARALLAX ANIMATIONS           */
+/* ============================================ */
+/* CSS-only parallax using animation-timeline: scroll() */
+/* Creates depth effect as user scrolls - no JavaScript! */
+
+/* Parallax keyframes for different depth layers */
+@keyframes parallax-far {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+
+@keyframes parallax-mid {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100px);
+  }
+}
+
+@keyframes parallax-near {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-180px);
+  }
+}
+
+@keyframes parallax-foreground {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-250px);
+  }
+}
+
+/* Parallax utility classes - apply to elements */
+.parallax-far {
+  animation: parallax-far linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+.parallax-mid {
+  animation: parallax-mid linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+.parallax-near {
+  animation: parallax-near linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+.parallax-foreground {
+  animation: parallax-foreground linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+/* Subtle horizontal parallax for clouds */
+@keyframes parallax-horizontal-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-30px);
+  }
+}
+
+.parallax-drift {
+  animation: parallax-horizontal-drift linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+/* Combined vertical + horizontal for organic feel */
+@keyframes parallax-organic {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-15px, -80px) scale(1.02);
+  }
+  100% {
+    transform: translate(-30px, -150px) scale(1);
+  }
+}
+
+.parallax-organic {
+  animation: parallax-organic linear;
+  animation-timeline: scroll();
+  animation-range: 0% 100%;
+}
+
+/* ============================================ */
+/* CLOUD LAYER UTILITY CLASSES                 */
+/* ============================================ */
+
+.cloud-layer {
+  position: absolute;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  pointer-events: none;
+}
+
+.cloud-layer img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: screen;
+}
+
+/* Soft edge masking for clouds */
+.cloud-soft-edges {
+  mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    black 30%,
+    transparent 70%
+  );
+  -webkit-mask-image: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    black 30%,
+    transparent 70%
+  );
+}
+
+/* Noise texture overlay for Pixar quality */
+.noise-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  z-index: 100;
 }
 
 /* ============================================ */
@@ -344,6 +984,318 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ============================================ */
+/* LEVEL 20 DREAMSCAPE: TYPOGRAPHY MAGIC       */
+/* ============================================ */
+/* Premium gradient text, animated glow effects, text reveals */
+
+/* --- Gradient Text Variations --- */
+
+/* Magical rainbow shimmer - premium animated gradient */
+.text-gradient-magic {
+  background: linear-gradient(
+    90deg,
+    #8b5cf6 0%,
+    #ec4899 20%,
+    #f472b6 40%,
+    #a855f7 60%,
+    #7c3aed 80%,
+    #8b5cf6 100%
+  );
+  background-size: 300% 100%;
+  animation: text-shimmer 6s ease-in-out infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Golden dream - warm ethereal glow */
+.text-gradient-golden {
+  background: linear-gradient(
+    135deg,
+    #fbbf24 0%,
+    #f59e0b 25%,
+    #fbcfe8 50%,
+    #f472b6 75%,
+    #fbbf24 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 5s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Cyan dream - electric & magical */
+.text-gradient-cyan {
+  background: linear-gradient(
+    135deg,
+    #06b6d4 0%,
+    #5bfff7 30%,
+    #a78bfa 70%,
+    #8b5cf6 100%
+  );
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Dreamy pink-purple (static, elegant) */
+.text-gradient-dream {
+  background: linear-gradient(135deg, #f472b6 0%, #a855f7 50%, #7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Soft lavender glow */
+.text-gradient-lavender {
+  background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 50%, #ddd6fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* --- Text Shimmer Animation --- */
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* --- Text Glow Effects --- */
+
+/* Soft purple glow halo */
+.text-glow-purple {
+  text-shadow:
+    0 0 10px rgba(168, 85, 247, 0.5),
+    0 0 20px rgba(168, 85, 247, 0.3),
+    0 0 40px rgba(168, 85, 247, 0.15),
+    0 2px 4px rgba(45, 27, 78, 0.1);
+}
+
+/* Pink magical glow */
+.text-glow-pink {
+  text-shadow:
+    0 0 10px rgba(236, 72, 153, 0.5),
+    0 0 20px rgba(236, 72, 153, 0.3),
+    0 0 40px rgba(236, 72, 153, 0.15),
+    0 2px 4px rgba(45, 27, 78, 0.1);
+}
+
+/* Cyan electric glow */
+.text-glow-cyan {
+  text-shadow:
+    0 0 10px rgba(91, 255, 247, 0.6),
+    0 0 25px rgba(91, 255, 247, 0.4),
+    0 0 50px rgba(91, 255, 247, 0.2),
+    0 2px 4px rgba(45, 27, 78, 0.1);
+}
+
+/* Warm golden glow */
+.text-glow-golden {
+  text-shadow:
+    0 0 8px rgba(251, 191, 36, 0.5),
+    0 0 18px rgba(251, 191, 36, 0.3),
+    0 0 35px rgba(251, 191, 36, 0.15),
+    0 2px 4px rgba(45, 27, 78, 0.1);
+}
+
+/* White ethereal glow */
+.text-glow-white {
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.7),
+    0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    0 0 60px rgba(196, 181, 253, 0.2);
+}
+
+/* Animated pulsing glow */
+.text-glow-pulse {
+  animation: text-glow-pulse-anim 3s ease-in-out infinite;
+}
+
+@keyframes text-glow-pulse-anim {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(168, 85, 247, 0.4),
+      0 0 20px rgba(168, 85, 247, 0.2);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(168, 85, 247, 0.6),
+      0 0 40px rgba(168, 85, 247, 0.4),
+      0 0 60px rgba(236, 72, 153, 0.2);
+  }
+}
+
+/* --- Premium Heading Presets --- */
+
+/* Hero headline - statement piece */
+.heading-hero {
+  font-family: var(--font-heading);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  background: linear-gradient(
+    135deg,
+    #2d1b4e 0%,
+    #5c4a72 40%,
+    #7c3aed 70%,
+    #2d1b4e 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 4px rgba(45, 27, 78, 0.1));
+}
+
+/* Magical script heading */
+.heading-magical {
+  font-family: var(--font-script);
+  background: linear-gradient(135deg, #ec4899 0%, #a855f7 50%, #7c3aed 100%);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(236, 72, 153, 0.3));
+}
+
+/* Glowing heading - for dark backgrounds */
+.heading-glowing {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: white;
+  text-shadow:
+    0 0 20px rgba(168, 85, 247, 0.8),
+    0 0 40px rgba(168, 85, 247, 0.5),
+    0 0 60px rgba(168, 85, 247, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Animated Text Reveal Utilities --- */
+
+/* Text fade up on scroll */
+.text-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s var(--ease-luxury),
+    transform 0.8s var(--ease-luxury);
+}
+
+.text-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Character-by-character stagger (use with JS) */
+.text-stagger span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(30px) rotate(5deg);
+  transition:
+    opacity 0.5s var(--ease-luxury),
+    transform 0.5s var(--ease-luxury);
+}
+
+.text-stagger.animate span {
+  opacity: 1;
+  transform: translateY(0) rotate(0deg);
+}
+
+/* --- Premium Text Treatments --- */
+
+/* Frosted text on glass */
+.text-frosted {
+  color: rgba(45, 27, 78, 0.85);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8),
+    0 2px 4px rgba(45, 27, 78, 0.05);
+}
+
+/* Embossed text effect */
+.text-embossed {
+  color: #5c4a72;
+  text-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.9),
+    -1px -1px 0 rgba(45, 27, 78, 0.05);
+}
+
+/* Neon text effect */
+.text-neon-pink {
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #ec4899,
+    0 0 40px #ec4899,
+    0 0 80px #ec4899;
+}
+
+.text-neon-cyan {
+  color: #fff;
+  text-shadow:
+    0 0 5px #fff,
+    0 0 10px #fff,
+    0 0 20px #5bfff7,
+    0 0 40px #5bfff7,
+    0 0 80px #5bfff7;
+}
+
+/* --- Inline Sparkle Text (CSS-only!) --- */
+/* Wrap text in span.text-sparkle for magical effect */
+
+.text-sparkle {
+  position: relative;
+  display: inline-block;
+}
+
+.text-sparkle::before,
+.text-sparkle::after {
+  content: "✦";
+  position: absolute;
+  font-size: 0.6em;
+  animation: inline-sparkle 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.text-sparkle::before {
+  top: -0.2em;
+  left: -0.5em;
+  animation-delay: 0s;
+}
+
+.text-sparkle::after {
+  bottom: -0.2em;
+  right: -0.5em;
+  animation-delay: 1s;
+}
+
+@keyframes inline-sparkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(180deg);
+  }
 }
 
 /* Logo Text Style */
@@ -645,6 +1597,93 @@ body {
 :focus-visible {
   outline: 2px solid rgba(168, 85, 247, 0.6);
   outline-offset: 2px;
+}
+
+/* ============================================ */
+/* PREMIUM DREAMSCAPE v2.0 - NEW EFFECTS       */
+/* ============================================ */
+/* Mouse Lantern, God Rays, Living Air         */
+
+/* Noise grain animation - stepped for film-like quality */
+@keyframes noise-pan {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -5%);
+  }
+  20% {
+    transform: translate(-10%, 5%);
+  }
+  30% {
+    transform: translate(5%, -10%);
+  }
+  40% {
+    transform: translate(-5%, 15%);
+  }
+  50% {
+    transform: translate(-10%, 5%);
+  }
+  60% {
+    transform: translate(15%, 0);
+  }
+  70% {
+    transform: translate(0, 10%);
+  }
+  80% {
+    transform: translate(-15%, 0);
+  }
+  90% {
+    transform: translate(10%, 5%);
+  }
+  100% {
+    transform: translate(5%, 0);
+  }
+}
+
+/* Ambient dust floating animation */
+@keyframes dust-float {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.2;
+  }
+  25% {
+    transform: translateY(-20px) translateX(5px);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-40px) translateX(-3px);
+    opacity: 0.4;
+  }
+  75% {
+    transform: translateY(-20px) translateX(8px);
+    opacity: 0.3;
+  }
+}
+
+/* Mouse lantern glow pulse - subtle breathing */
+@keyframes lantern-breathe {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.55;
+    transform: scale(1.05);
+  }
+}
+
+/* God ray shimmer - adds sparkle to rays */
+@keyframes ray-shimmer {
+  0%,
+  100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.06;
+  }
 }
 
 /* ============================================ */
