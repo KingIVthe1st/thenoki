@@ -161,15 +161,17 @@ export function GlassCard({
         }}
       />
 
-      {/* Glow effect layer - uses opacity animation instead of boxShadow */}
+      {/* CHROME FIX v3: Replaced blur(20px) with scaled soft gradient */}
       {glowOnHover && (
         <div
-          className="absolute -inset-2 rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute rounded-3xl pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           style={{
+            inset: "-16px", // Scaled from -8px to compensate for no blur
             background:
-              "radial-gradient(ellipse at center, rgba(168, 85, 247, 0.25) 0%, transparent 70%)",
-            filter: "blur(20px)",
+              "radial-gradient(ellipse at center, rgba(168, 85, 247, 0.2) 0%, rgba(168, 85, 247, 0.1) 25%, rgba(168, 85, 247, 0.03) 50%, transparent 75%)",
+            // NO filter:blur - GPU safe!
             zIndex: -2,
+            transform: "translateZ(0)",
           }}
         />
       )}

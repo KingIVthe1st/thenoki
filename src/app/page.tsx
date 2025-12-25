@@ -205,26 +205,28 @@ function Navigation() {
       {/* CENTERED PILL-SHAPED CONTAINER */}
       <div className="mx-auto mt-4 px-4 max-w-4xl relative">
         {/* === MULTI-LAYER AURA SYSTEM - STATIC FOR CHROME PERF === */}
-        {/* Outer aura - diffuse purple/pink glow */}
-        {/* NOTE: Removed infinite animation - animating with filter:blur causes Chrome jank */}
+        {/* CHROME FIX v3: Replaced filter:blur with scaled soft gradients */}
+        {/* Outer aura - diffuse purple/pink glow (was blur(40px), now scale 1.8x with soft gradient) */}
         <div
-          className="absolute -inset-8 rounded-full pointer-events-none"
+          className="absolute rounded-full pointer-events-none"
           style={{
+            inset: "-48px", // Scaled from -32px (1.8x for blur compensation)
             background:
-              "radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.1) 40%, transparent 70%)",
-            filter: "blur(40px)",
-            opacity: 0.55,
+              "radial-gradient(ellipse at 50% 50%, rgba(168, 85, 247, 0.15) 0%, rgba(168, 85, 247, 0.1) 15%, rgba(236, 72, 153, 0.07) 35%, rgba(236, 72, 153, 0.03) 55%, transparent 75%)",
+            opacity: 0.5,
+            transform: "translateZ(0)",
           }}
         />
 
-        {/* Inner aura - brighter core glow */}
+        {/* Inner aura - brighter core glow (was blur(20px), now scale 1.4x with soft gradient) */}
         <div
-          className="absolute -inset-4 rounded-full pointer-events-none"
+          className="absolute rounded-full pointer-events-none"
           style={{
+            inset: "-22px", // Scaled from -16px
             background:
-              "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.3) 0%, rgba(196, 181, 253, 0.15) 50%, transparent 70%)",
-            filter: "blur(20px)",
-            opacity: 0.65,
+              "radial-gradient(ellipse at 50% 50%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.15) 20%, rgba(196, 181, 253, 0.1) 40%, rgba(196, 181, 253, 0.03) 60%, transparent 80%)",
+            opacity: 0.6,
+            transform: "translateZ(0)",
           }}
         />
 
@@ -470,9 +472,14 @@ function Navigation() {
 
                     {/* Enhanced underline with glow */}
                     <span className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 group-hover:w-[80%] transition-all duration-300 rounded-full" />
-                    <motion.span
-                      className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 group-hover:w-[80%] transition-all duration-300 rounded-full opacity-40"
-                      style={{ filter: "blur(4px)" }}
+                    {/* CHROME FIX v3: Removed filter:blur - use scaled element with soft gradient */}
+                    <span
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-2.5 group-hover:w-[90%] transition-all duration-300 rounded-full opacity-30"
+                      style={{
+                        background:
+                          "radial-gradient(ellipse at center, rgba(168, 85, 247, 0.8) 0%, rgba(236, 72, 153, 0.4) 40%, transparent 70%)",
+                        transform: "translateZ(0)",
+                      }}
                     />
 
                     {/* Hover sparkle */}
@@ -621,17 +628,19 @@ function HeroSection() {
                   boxShadow: "0 4px 15px rgba(255, 107, 157, 0.4)",
                 }}
               >
-                {/* CHROME FIX: Animated glow layer - opacity only */}
+                {/* CHROME FIX v3: Removed filter:blur AND scale animation */}
+                {/* Scale + blur causes GPU re-rasterization every frame */}
                 <motion.div
-                  className="absolute -inset-1 rounded-full pointer-events-none -z-10"
+                  className="absolute rounded-full pointer-events-none -z-10"
                   style={{
+                    inset: "-8px", // Scaled from -4px to compensate for no blur
                     background:
-                      "radial-gradient(ellipse at center, rgba(255, 107, 157, 0.3) 0%, transparent 70%)",
-                    filter: "blur(12px)",
+                      "radial-gradient(ellipse at center, rgba(255, 107, 157, 0.25) 0%, rgba(255, 107, 157, 0.12) 30%, rgba(255, 107, 157, 0.04) 60%, transparent 80%)",
+                    // NO filter:blur - GPU safe!
+                    transform: "translateZ(0)",
                   }}
                   animate={{
-                    opacity: [0.4, 1, 0.4],
-                    scale: [1, 1.15, 1],
+                    opacity: [0.5, 0.9, 0.5], // Only opacity - GPU composited
                   }}
                   transition={{
                     duration: 2,
@@ -743,26 +752,27 @@ function HeroSection() {
                     transform: "translateZ(0)",
                   }}
                 >
-                  {/* Decorative glow behind character - STATIC for Chrome perf */}
-                  {/* NOTE: Removed infinite animation - animating with filter:blur causes Chrome jank */}
+                  {/* CHROME FIX v3: Decorative glow - replaced blur(60px) with scaled soft gradient */}
                   <div
-                    className="absolute -inset-16 rounded-full -z-10"
+                    className="absolute rounded-full -z-10"
                     style={{
+                      inset: "-96px", // Scaled from -64px (2.2x for blur compensation)
                       background:
-                        "radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.3) 0%, rgba(168, 85, 247, 0.25) 25%, rgba(236, 72, 153, 0.15) 45%, transparent 65%)",
-                      filter: "blur(60px)",
-                      opacity: 0.75,
+                        "radial-gradient(circle at 50% 50%, rgba(0, 245, 255, 0.2) 0%, rgba(0, 245, 255, 0.12) 15%, rgba(168, 85, 247, 0.15) 25%, rgba(168, 85, 247, 0.08) 40%, rgba(236, 72, 153, 0.08) 50%, rgba(236, 72, 153, 0.03) 65%, transparent 80%)",
+                      opacity: 0.7,
+                      transform: "translateZ(0)",
                     }}
                   />
 
-                  {/* Secondary aura ring */}
+                  {/* CHROME FIX v3: Secondary aura - replaced blur(30px) with scaled soft gradient */}
                   <div
-                    className="absolute -inset-8 rounded-full -z-10"
+                    className="absolute rounded-full -z-10"
                     style={{
+                      inset: "-48px", // Scaled from -32px (1.6x for blur compensation)
                       background:
-                        "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%)",
-                      filter: "blur(30px)",
-                      opacity: 0.55,
+                        "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.02) 50%, transparent 70%)",
+                      opacity: 0.5,
+                      transform: "translateZ(0)",
                     }}
                   />
 
@@ -901,15 +911,15 @@ function CharactersSection() {
               >
                 {/* Character Image */}
                 <div className="w-full aspect-square rounded-2xl mb-4 overflow-hidden relative">
-                  {/* Glow effect behind character - STATIC for Chrome performance */}
-                  {/* NOTE: Removed infinite animation - animating elements with filter:blur */}
-                  {/* causes Chrome compositing churn. Using CSS transition on hover instead. */}
+                  {/* CHROME FIX v3: Replaced blur(20px) with scaled soft gradient */}
+                  {/* CSS transition on hover still works - only transform/opacity */}
                   <div
-                    className="absolute inset-4 rounded-full -z-10 transition-all duration-500 group-hover:scale-110 group-hover:opacity-80"
+                    className="absolute rounded-full -z-10 transition-all duration-500 group-hover:scale-125 group-hover:opacity-75"
                     style={{
-                      background: `radial-gradient(circle, ${character.glowColor} 0%, transparent 70%)`,
-                      filter: "blur(20px)",
-                      opacity: 0.5,
+                      inset: "-8px", // Scaled outward from inset-4 to compensate for no blur
+                      background: `radial-gradient(circle, ${character.glowColor.replace("0.", "0.25")} 0%, ${character.glowColor.replace("0.", "0.12")} 30%, ${character.glowColor.replace("0.", "0.04")} 60%, transparent 80%)`,
+                      opacity: 0.55,
+                      transform: "translateZ(0)",
                     }}
                   />
 
