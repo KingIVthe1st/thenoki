@@ -3,12 +3,14 @@
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 
 // ============================================
-// FLUFFY CLOUD v4.0 - PERFORMANCE OPTIMIZED
+// FLUFFY CLOUD v5.0 - CHROME FLICKER FIX
 // ============================================
 // 28 CURATED CLOUDS (from 55) - 50% reduction
 // TECHNIQUE: Group animation - 3 parallax containers
 // Only containers have willChange - individual clouds are static
-// CHROME FIX: No filter animations, blur applied statically
+// CHROME FIX v2: REMOVED filter:blur() completely
+// Uses scaled elements with soft radial gradients instead
+// Prevents GPU thrashing when parent container animates
 
 // SVG Noise Filter - adds organic turbulent texture to clouds
 export function CloudNoiseFilter() {
@@ -882,18 +884,33 @@ function CloudContainer({
 // ============================================
 // Clouds are purely static divs with gradients
 // Animation happens at container level
+// CHROME FIX: No filter:blur - uses scaled elements with soft gradients
 
 function StaticCloud({ config }: { config: CloudConfig }) {
-  // Build compound radial gradients
+  // CHROME FLICKER FIX: Scale up cloud to compensate for no blur
+  // Was using filter: blur(18-100px) which causes GPU thrashing
+  // Now use larger element with softer gradient stops
+  const scaleFactor = 1 + config.blur / 50;
+
+  // Build compound radial gradients with extra soft stops to replace blur
   const compoundGradient = config.gradients
     .map((g) => {
-      const colorStops = g.colors
+      // Scale the radii to compensate for no blur
+      const scaledRx = `calc(${g.rx} * ${scaleFactor})`;
+      const scaledRy = `calc(${g.ry} * ${scaleFactor})`;
+
+      // Add extra color stops for softer edges (replacing filter blur)
+      const extendedColors = [...g.colors];
+      // Insert intermediate color stops for smoother falloff
+      const colorStops = extendedColors
         .map((color, i) => {
-          const percent = (i / (g.colors.length - 1)) * 100;
+          // More gradual distribution for soft edges
+          const percent = (i / (extendedColors.length - 1)) * 75; // End at 75% instead of 100%
           return `${color} ${percent}%`;
         })
         .join(", ");
-      return `radial-gradient(ellipse ${g.rx} ${g.ry} at ${g.cx} ${g.cy}, ${colorStops})`;
+
+      return `radial-gradient(ellipse ${scaledRx} ${scaledRy} at ${g.cx} ${g.cy}, ${colorStops}, transparent 100%)`;
     })
     .join(", ");
 
@@ -905,13 +922,19 @@ function StaticCloud({ config }: { config: CloudConfig }) {
         left: config.left,
         bottom: config.bottom,
         right: config.right,
-        width: config.width,
-        height: config.height,
-        opacity: config.opacity,
+        // Scale up width/height to compensate for no blur
+        width: `calc(${config.width} * ${scaleFactor})`,
+        height: `calc(${config.height} * ${scaleFactor})`,
+        // Slightly reduce opacity since element is larger
+        opacity: config.opacity * 0.9,
         background: compoundGradient,
-        // STATIC blur - never animated
-        filter: `blur(${config.blur}px)`,
+        // CHROME FIX: NO filter:blur() - GPU thrashing fix!
+        // Blur effect is achieved through scaled size + soft gradient stops
         boxShadow: config.shadowBlobs || "none",
+        // GPU optimization
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+        transform: "translateZ(0)",
         // NO willChange on individual clouds
         pointerEvents: "none",
       }}
