@@ -614,11 +614,12 @@ function HeroSection() {
               <span className="font-script text-lg lg:text-xl text-gradient-dream font-semibold italic">
                 By Anoki Win
               </span>
+              {/* CHROME FIX: Removed drop-shadow from animated element */}
               <motion.span
                 animate={{ scale: [1, 1.3, 1], rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
               >
-                <HeartIcon className="w-5 h-5 text-pink-500 drop-shadow-[0_0_8px_rgba(236,72,153,0.6)]" />
+                <HeartIcon className="w-5 h-5 text-pink-500" />
               </motion.span>
             </motion.div>
 
@@ -792,6 +793,7 @@ function HeroSection() {
                   />
 
                   {/* Sparkle decorations around character - Enhanced */}
+                  {/* CHROME FIX: Removed drop-shadow from animated elements - causes GPU thrashing */}
                   <motion.div
                     className="absolute -top-6 -right-2 text-cyan-400"
                     animate={{
@@ -801,7 +803,7 @@ function HeroSection() {
                     }}
                     transition={{ duration: 4, repeat: Infinity }}
                   >
-                    <SparkleIcon className="w-7 h-7 drop-shadow-[0_0_10px_rgba(0,229,255,0.8)]" />
+                    <SparkleIcon className="w-7 h-7" />
                   </motion.div>
                   <motion.div
                     className="absolute bottom-12 -left-4 text-pink-400"
@@ -812,7 +814,7 @@ function HeroSection() {
                     }}
                     transition={{ duration: 5, repeat: Infinity, delay: 1 }}
                   >
-                    <SparkleIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(244,114,182,0.8)]" />
+                    <SparkleIcon className="w-5 h-5" />
                   </motion.div>
                   <motion.div
                     className="absolute top-1/4 -right-6 text-purple-400"
@@ -822,7 +824,7 @@ function HeroSection() {
                     }}
                     transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
                   >
-                    <HeartIcon className="w-5 h-5 drop-shadow-[0_0_8px_rgba(168,85,247,0.7)]" />
+                    <HeartIcon className="w-5 h-5" />
                   </motion.div>
                   <motion.div
                     className="absolute bottom-1/4 -right-8"
@@ -833,7 +835,7 @@ function HeroSection() {
                     }}
                     transition={{ duration: 4, repeat: Infinity, delay: 2 }}
                   >
-                    <SparkleIcon className="w-4 h-4 text-yellow-300 drop-shadow-[0_0_6px_rgba(253,224,71,0.8)]" />
+                    <SparkleIcon className="w-4 h-4 text-yellow-300" />
                   </motion.div>
                 </div>
               </motion.div>
