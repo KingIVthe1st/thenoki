@@ -305,13 +305,11 @@ function Navigation() {
         />
 
         {/* === MAIN GLASS CONTAINER - PILL SHAPED === */}
-        {/* CHROME FLICKER FIX: Separated architecture */}
-        {/* Outer: handles animation (NO backdrop-filter) */}
-        {/* Inner: handles glass effect (NO animation) */}
-        <motion.div
+        {/* CHROME FLICKER FIX v2: REMOVED breathing animation */}
+        {/* Animating a container with backdrop-filter child causes GPU thrashing */}
+        <div
           className="relative overflow-hidden rounded-full"
           style={{
-            // CHROME FIX: Only borders/shadows on animated container
             border: "1px solid rgba(255, 255, 255, 0.5)",
             boxShadow: `
               0 0 0 1px rgba(255, 255, 255, 0.1),
@@ -320,23 +318,11 @@ function Navigation() {
               inset 0 1px 0 rgba(255, 255, 255, 0.6),
               inset 0 -1px 0 rgba(255, 255, 255, 0.2)
             `,
-            // GPU optimization for animated container
+            // GPU layer isolation
             isolation: "isolate",
-            contain: "layout paint style",
-            willChange: "transform",
             backfaceVisibility: "hidden",
             WebkitBackfaceVisibility: "hidden",
             transform: "translateZ(0)",
-          }}
-          // Breathing animation - makes it feel alive
-          animate={{
-            y: [0, -2, 0],
-            scale: [1, 1.003, 1],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
           }}
         >
           {/* CHROME FIX: Separate STATIC layer for backdrop-filter */}
@@ -434,25 +420,21 @@ function Navigation() {
                   The Noki Ai
                 </span>
 
-                {/* Animated heart with enhanced glow */}
-                <motion.div
-                  className="relative"
-                  animate={{ scale: [1, 1.25, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
+                {/* CHROME FIX: Removed animation from heart with blur child */}
+                {/* Blur inside animated container causes GPU thrashing */}
+                <div className="relative">
                   <HeartIcon className="w-4 h-4 text-pink-500 relative z-10" />
-                  {/* Double-layer heart glow - STATIC for Chrome perf */}
+                  {/* Heart glow - STATIC, no animation */}
                   <div
                     className="absolute inset-0 rounded-full -z-10"
                     style={{
                       background:
                         "radial-gradient(circle, rgba(236,72,153,0.5) 0%, transparent 70%)",
-                      filter: "blur(6px)",
                       transform: "scale(2.25)",
                       opacity: 0.55,
                     }}
                   />
-                </motion.div>
+                </div>
               </motion.div>
 
               {/* === NAV LINKS WITH MAGNETIC HOVER === */}
@@ -534,7 +516,7 @@ function Navigation() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </motion.nav>
   );
