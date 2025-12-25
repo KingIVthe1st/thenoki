@@ -342,10 +342,12 @@ export function ForegroundWisps() {
       style={{ zIndex: 25 }}
     >
       {FOREGROUND_WISPS.map((wisp) => {
-        // Build compound radial gradients
+        // Build compound radial gradients with pre-softened edges (no filter blur needed)
+        // Technique: Extend gradient to 150% size and use softer color stops
         const gradientBg = wisp.gradients
           .map((g) => {
-            return `radial-gradient(ellipse ${g.rx} ${g.ry} at ${g.cx} ${g.cy}, ${g.color} 0%, transparent 100%)`;
+            // Parse color and create softer gradient stops
+            return `radial-gradient(ellipse ${g.rx} ${g.ry} at ${g.cx} ${g.cy}, ${g.color} 0%, ${g.color.replace(/[\d.]+\)$/, "0.5)")} 30%, ${g.color.replace(/[\d.]+\)$/, "0.1)")} 70%, transparent 100%)`;
           })
           .join(", ");
 
@@ -358,18 +360,18 @@ export function ForegroundWisps() {
               bottom: wisp.bottom,
               left: wisp.left,
               right: wisp.right,
-              width: wisp.width,
-              height: wisp.height,
+              // Scale up to compensate for no blur (was blur: 45-55px)
+              width: `calc(${wisp.width} * 1.5)`,
+              height: `calc(${wisp.height} * 1.5)`,
               background: gradientBg,
-              filter: `blur(${wisp.blur}px)`,
-              opacity: wisp.opacity,
-              // GPU optimization
-              willChange: "transform, opacity",
+              // NO filter: blur() - GPU thrashing fix!
+              opacity: wisp.opacity * 0.8, // Slightly reduce since gradients are softer
+              // GPU optimization - only transform + opacity animate
               backfaceVisibility: "hidden",
               transform: "translateZ(0)",
               // Mix blend for light interaction
               mixBlendMode: "screen",
-              // Animation
+              // Animation (only transform + opacity = GPU composited)
               animation: `${wisp.animation} ${wisp.duration}s ease-in-out infinite`,
               animationDelay: `${wisp.delay}s`,
             }}

@@ -143,7 +143,7 @@ function LightRays() {
 
   return (
     <div className="absolute inset-0" style={{ zIndex: 1 }}>
-      {/* Primary golden rays */}
+      {/* Primary golden rays - NO filter blur, soft gradients built-in */}
       <div
         style={{
           position: "absolute",
@@ -155,32 +155,43 @@ function LightRays() {
             conic-gradient(
               from 180deg at 50% 0%,
               transparent 0deg,
+              rgba(255, 250, 230, 0.1) 8deg,
               rgba(255, 250, 230, 0.12) 10deg,
               rgba(255, 215, 157, 0.08) 20deg,
+              rgba(255, 215, 157, 0.04) 28deg,
               transparent 35deg,
               transparent 55deg,
+              rgba(255, 255, 255, 0.05) 62deg,
               rgba(255, 255, 255, 0.1) 70deg,
               rgba(255, 240, 220, 0.06) 85deg,
+              rgba(255, 240, 220, 0.02) 95deg,
               transparent 100deg,
               transparent 115deg,
+              rgba(255, 250, 240, 0.05) 122deg,
               rgba(255, 250, 240, 0.09) 130deg,
+              rgba(255, 250, 240, 0.04) 140deg,
               transparent 145deg,
               transparent 180deg,
+              rgba(255, 245, 235, 0.04) 188deg,
               rgba(255, 245, 235, 0.08) 195deg,
+              rgba(255, 245, 235, 0.03) 205deg,
               transparent 210deg,
               transparent 230deg,
+              rgba(255, 255, 255, 0.06) 238deg,
               rgba(255, 255, 255, 0.11) 245deg,
               rgba(255, 220, 180, 0.07) 260deg,
+              rgba(255, 220, 180, 0.03) 272deg,
               transparent 280deg,
               transparent 300deg,
+              rgba(255, 250, 230, 0.05) 307deg,
               rgba(255, 250, 230, 0.1) 315deg,
+              rgba(255, 250, 230, 0.04) 328deg,
               transparent 335deg,
               transparent 360deg
             )
           `,
-          filter: "blur(3px)",
+          // NO filter: blur() - GPU thrashing fix! Extra gradient stops create softness
           opacity: 0.7,
-          willChange: reducedMotion ? "auto" : "opacity",
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -189,7 +200,7 @@ function LightRays() {
         }}
       />
 
-      {/* Secondary pink rays */}
+      {/* Secondary pink rays - NO filter blur */}
       <div
         style={{
           position: "absolute",
@@ -201,25 +212,34 @@ function LightRays() {
             conic-gradient(
               from 200deg at 60% 10%,
               transparent 0deg,
+              rgba(251, 207, 232, 0.04) 18deg,
               rgba(251, 207, 232, 0.08) 25deg,
+              rgba(251, 207, 232, 0.04) 35deg,
               transparent 50deg,
               transparent 80deg,
+              rgba(244, 114, 182, 0.03) 90deg,
               rgba(244, 114, 182, 0.06) 100deg,
+              rgba(244, 114, 182, 0.03) 112deg,
               transparent 125deg,
               transparent 160deg,
+              rgba(236, 72, 153, 0.02) 170deg,
               rgba(236, 72, 153, 0.05) 180deg,
+              rgba(236, 72, 153, 0.02) 192deg,
               transparent 205deg,
               transparent 240deg,
+              rgba(251, 207, 232, 0.03) 250deg,
               rgba(251, 207, 232, 0.07) 260deg,
+              rgba(251, 207, 232, 0.03) 275deg,
               transparent 290deg,
               transparent 320deg,
+              rgba(244, 114, 182, 0.03) 330deg,
               rgba(244, 114, 182, 0.06) 340deg,
+              rgba(244, 114, 182, 0.03) 352deg,
               transparent 360deg
             )
           `,
-          filter: "blur(5px)",
+          // NO filter: blur() - GPU thrashing fix!
           opacity: 0.6,
-          willChange: reducedMotion ? "auto" : "opacity",
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -229,18 +249,17 @@ function LightRays() {
         }}
       />
 
-      {/* Central glow burst */}
+      {/* Central glow burst - NO filter blur, larger with softer gradient */}
       <div
         style={{
           position: "absolute",
-          top: "-5%",
-          left: "25%",
-          width: "50%",
-          height: "40%",
+          top: "-15%", // Extended
+          left: "15%", // Extended
+          width: "70%", // Larger
+          height: "55%", // Larger
           background:
-            "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 250, 240, 0.1) 30%, transparent 70%)",
-          filter: "blur(20px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 250, 240, 0.08) 20%, rgba(255, 250, 240, 0.04) 40%, transparent 60%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -260,18 +279,17 @@ function AuroraMesh() {
 
   return (
     <div className="absolute inset-0" style={{ zIndex: 2 }}>
-      {/* Primary purple aurora - top */}
+      {/* Primary purple aurora - top - NO filter blur, larger with softer gradient */}
       <div
         style={{
           position: "absolute",
-          top: "-20%",
-          left: "-10%",
-          width: "70%",
-          height: "60%",
+          top: "-40%", // Extended for softness
+          left: "-30%",
+          width: "110%", // Much larger
+          height: "100%",
           background:
-            "radial-gradient(ellipse at center, rgba(139, 92, 246, 0.4) 0%, rgba(139, 92, 246, 0.1) 40%, transparent 70%)",
-          filter: "blur(100px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at center, rgba(139, 92, 246, 0.25) 0%, rgba(139, 92, 246, 0.12) 25%, rgba(139, 92, 246, 0.05) 50%, transparent 70%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -280,18 +298,17 @@ function AuroraMesh() {
         }}
       />
 
-      {/* Secondary pink aurora - bottom right */}
+      {/* Secondary pink aurora - bottom right - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          bottom: "-10%",
-          right: "-15%",
-          width: "60%",
-          height: "50%",
+          bottom: "-30%", // Extended
+          right: "-35%",
+          width: "100%", // Much larger
+          height: "90%",
           background:
-            "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.35) 0%, rgba(244, 114, 182, 0.15) 40%, transparent 70%)",
-          filter: "blur(120px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at center, rgba(236, 72, 153, 0.22) 0%, rgba(244, 114, 182, 0.1) 30%, rgba(244, 114, 182, 0.04) 55%, transparent 75%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -301,18 +318,17 @@ function AuroraMesh() {
         }}
       />
 
-      {/* Cyan accent - center left */}
+      {/* Cyan accent - center left - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          top: "30%",
-          left: "-5%",
-          width: "40%",
-          height: "40%",
+          top: "15%", // Extended
+          left: "-25%",
+          width: "70%", // Larger
+          height: "70%",
           background:
-            "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.2) 0%, transparent 60%)",
-          filter: "blur(80px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at center, rgba(56, 189, 248, 0.12) 0%, rgba(56, 189, 248, 0.05) 35%, transparent 60%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -322,18 +338,17 @@ function AuroraMesh() {
         }}
       />
 
-      {/* Lavender mist - center */}
+      {/* Lavender mist - center - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          top: "40%",
-          left: "30%",
-          width: "50%",
-          height: "40%",
+          top: "25%", // Extended
+          left: "15%",
+          width: "80%", // Larger
+          height: "65%",
           background:
-            "radial-gradient(ellipse at center, rgba(196, 181, 253, 0.25) 0%, rgba(221, 214, 254, 0.1) 50%, transparent 70%)",
-          filter: "blur(100px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at center, rgba(196, 181, 253, 0.15) 0%, rgba(221, 214, 254, 0.07) 35%, rgba(221, 214, 254, 0.02) 55%, transparent 70%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -343,18 +358,17 @@ function AuroraMesh() {
         }}
       />
 
-      {/* Warm peach glow - bottom center */}
+      {/* Warm peach glow - bottom center - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          bottom: "0%",
-          left: "20%",
-          width: "60%",
-          height: "35%",
+          bottom: "-15%", // Extended
+          left: "5%",
+          width: "90%", // Larger
+          height: "55%",
           background:
-            "radial-gradient(ellipse at bottom, rgba(251, 207, 232, 0.4) 0%, rgba(252, 231, 243, 0.2) 40%, transparent 70%)",
-          filter: "blur(80px)",
-          willChange: reducedMotion ? "auto" : "opacity",
+            "radial-gradient(ellipse at bottom, rgba(251, 207, 232, 0.25) 0%, rgba(252, 231, 243, 0.12) 30%, rgba(252, 231, 243, 0.04) 55%, transparent 75%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: reducedMotion
@@ -380,36 +394,34 @@ function BloomEffects() {
       className="absolute inset-0 pointer-events-none"
       style={{ zIndex: 11 }}
     >
-      {/* Large pink bloom - bottom right */}
+      {/* Large pink bloom - bottom right - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          bottom: "10%",
-          right: "15%",
-          width: "30vw",
-          height: "30vw",
+          bottom: "0%", // Extended
+          right: "5%",
+          width: "45vw", // Larger
+          height: "45vw",
           background:
-            "radial-gradient(circle, rgba(236,72,153,0.25) 0%, rgba(236,72,153,0.1) 40%, transparent 70%)",
-          filter: "blur(40px)",
-          willChange: "opacity",
+            "radial-gradient(circle, rgba(236,72,153,0.15) 0%, rgba(236,72,153,0.08) 25%, rgba(236,72,153,0.03) 50%, transparent 70%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: "bloom-pulse 18s ease-in-out infinite",
         }}
       />
 
-      {/* Large purple bloom - top left */}
+      {/* Large purple bloom - top left - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          top: "5%",
-          left: "10%",
-          width: "35vw",
-          height: "35vw",
+          top: "-5%", // Extended
+          left: "0%",
+          width: "50vw", // Larger
+          height: "50vw",
           background:
-            "radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0.1) 45%, transparent 70%)",
-          filter: "blur(50px)",
-          willChange: "opacity",
+            "radial-gradient(circle, rgba(139,92,246,0.2) 0%, rgba(139,92,246,0.1) 25%, rgba(139,92,246,0.04) 50%, transparent 70%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: "bloom-pulse 22s ease-in-out infinite",
@@ -417,18 +429,17 @@ function BloomEffects() {
         }}
       />
 
-      {/* Medium cyan bloom - center */}
+      {/* Medium cyan bloom - center - NO filter blur */}
       <div
         style={{
           position: "absolute",
-          top: "40%",
-          left: "45%",
-          width: "25vw",
-          height: "25vw",
+          top: "30%", // Extended
+          left: "35%",
+          width: "40vw", // Larger
+          height: "40vw",
           background:
-            "radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 60%)",
-          filter: "blur(35px)",
-          willChange: "opacity",
+            "radial-gradient(circle, rgba(56,189,248,0.12) 0%, rgba(56,189,248,0.05) 35%, transparent 60%)",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           transform: "translateZ(0)",
           animation: "bloom-pulse 20s ease-in-out infinite",

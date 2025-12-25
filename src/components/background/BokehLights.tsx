@@ -198,35 +198,41 @@ export function BokehLights() {
         backfaceVisibility: "hidden",
       }}
     >
-      {BOKEH_LIGHTS.map((bokeh) => (
-        <div
-          key={bokeh.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${bokeh.left}%`,
-            top: `${bokeh.top}%`,
-            width: bokeh.size,
-            height: bokeh.size,
-            // Multi-layered radial gradient for soft edges
-            background: `radial-gradient(
-              circle at center,
-              ${bokeh.color} 0%,
-              ${bokeh.color.replace(/[\d.]+\)$/, "0.08)")} 40%,
-              transparent 70%
-            )`,
-            // STATIC blur - never animated (Chrome-safe)
-            filter: `blur(${bokeh.blur}px)`,
-            opacity: bokeh.opacity,
-            // Center the element + Chrome sub-pixel fix
-            transform: "translate(-50%, -50%) translateZ(0) rotate(0.01deg)",
-            // PERFORMANCE: Removed willChange from individual elements
-            backfaceVisibility: "hidden",
-            // Animation (only transform + opacity = GPU composited)
-            animation: `${bokeh.animation} ${bokeh.duration}s ease-in-out infinite`,
-            animationDelay: `${bokeh.delay}s`,
-          }}
-        />
-      ))}
+      {BOKEH_LIGHTS.map((bokeh) => {
+        // Scale up size to compensate for no blur (was blur: 35-70px)
+        // Larger element with softer gradient = same visual effect without GPU filter
+        const scaledSize = bokeh.size + bokeh.blur * 2;
+
+        return (
+          <div
+            key={bokeh.id}
+            className="absolute rounded-full"
+            style={{
+              left: `${bokeh.left}%`,
+              top: `${bokeh.top}%`,
+              width: scaledSize,
+              height: scaledSize,
+              // Ultra-soft multi-layered radial gradient (no filter blur needed)
+              background: `radial-gradient(
+                circle at center,
+                ${bokeh.color} 0%,
+                ${bokeh.color.replace(/[\d.]+\)$/, "0.12)")} 25%,
+                ${bokeh.color.replace(/[\d.]+\)$/, "0.05)")} 50%,
+                ${bokeh.color.replace(/[\d.]+\)$/, "0.02)")} 70%,
+                transparent 85%
+              )`,
+              // NO filter: blur() - GPU thrashing fix!
+              opacity: bokeh.opacity,
+              // Center the element + Chrome sub-pixel fix
+              transform: "translate(-50%, -50%) translateZ(0)",
+              backfaceVisibility: "hidden",
+              // Animation (only transform + opacity = GPU composited)
+              animation: `${bokeh.animation} ${bokeh.duration}s ease-in-out infinite`,
+              animationDelay: `${bokeh.delay}s`,
+            }}
+          />
+        );
+      })}
     </div>
   );
 }

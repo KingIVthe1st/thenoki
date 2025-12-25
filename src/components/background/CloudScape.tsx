@@ -245,13 +245,18 @@ function CSSCloud({
   zIndex: number;
   reducedMotion: boolean;
 }) {
-  // Build radial gradient from color stops
+  // Build ultra-soft radial gradient with extra color stops (no filter blur needed)
+  // Original blur was 25-80px, we compensate by creating softer gradients
   const gradientStops = config.colors
     .map((color, i) => {
-      const percent = (i / (config.colors.length - 1)) * 100;
-      return `${color} ${percent}%`;
+      // Distribute colors across a wider range with softer falloff
+      const basePercent = (i / (config.colors.length - 1)) * 70; // End at 70%
+      return `${color} ${basePercent}%`;
     })
     .join(", ");
+
+  // Scale up to compensate for no blur (was blur: 25-80px)
+  const scaleFactor = 1 + config.blur / 50;
 
   return (
     <div
@@ -261,19 +266,19 @@ function CSSCloud({
         left: config.left,
         bottom: config.bottom,
         right: config.right,
-        width: config.width,
-        height: config.height,
+        // Scale up width/height to compensate for no blur
+        width: `calc(${config.width} * ${scaleFactor})`,
+        height: `calc(${config.height} * ${scaleFactor})`,
         zIndex,
-        opacity: config.opacity,
-        // Radial gradient creates the cloud shape
-        background: `radial-gradient(ellipse at center, ${gradientStops})`,
-        filter: `blur(${config.blur}px)`,
+        opacity: config.opacity * 0.85, // Slightly reduce since gradients are larger
+        // Ultra-soft radial gradient (no filter blur needed!)
+        background: `radial-gradient(ellipse at center, ${gradientStops}, transparent 100%)`,
+        // NO filter: blur() - GPU thrashing fix!
         // GPU optimization
-        willChange: reducedMotion ? "auto" : "transform, opacity",
         backfaceVisibility: "hidden",
         WebkitBackfaceVisibility: "hidden",
         transform: "translateZ(0)",
-        // CSS animation
+        // CSS animation (only transform + opacity = GPU composited)
         animation: reducedMotion
           ? "none"
           : `${config.animation} ${config.duration}s ease-in-out infinite`,
@@ -294,48 +299,50 @@ export function AmbientMist() {
 
   return (
     <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 6 }}>
-      {/* Bottom mist layer */}
+      {/* Bottom mist layer - uses larger element with softer gradient instead of blur */}
       <div
         style={{
           position: "absolute",
-          bottom: "-10%",
-          left: "-10%",
-          right: "-10%",
-          height: "50%",
+          bottom: "-20%", // Extend further to compensate for no blur
+          left: "-20%",
+          right: "-20%",
+          height: "70%", // Larger to create soft edge effect
           background: `linear-gradient(
             180deg,
             transparent 0%,
-            rgba(255, 255, 255, 0.15) 40%,
-            rgba(251, 207, 232, 0.2) 70%,
-            rgba(255, 255, 255, 0.25) 100%
+            transparent 20%,
+            rgba(255, 255, 255, 0.08) 40%,
+            rgba(251, 207, 232, 0.12) 60%,
+            rgba(255, 255, 255, 0.15) 80%,
+            rgba(255, 255, 255, 0.18) 100%
           )`,
-          filter: "blur(40px)",
+          // NO filter: blur() - GPU thrashing fix!
           borderRadius: "50% 50% 0 0",
-          willChange: "transform, opacity",
           backfaceVisibility: "hidden",
           animation: "mist-pulse 60s ease-in-out infinite",
           animationDelay: "-15s",
         }}
       />
 
-      {/* Upper ethereal mist */}
+      {/* Upper ethereal mist - uses larger element with softer gradient instead of blur */}
       <div
         style={{
           position: "absolute",
-          top: "40%",
-          left: "-5%",
-          right: "-5%",
-          height: "35%",
+          top: "30%", // Extend further
+          left: "-15%",
+          right: "-15%",
+          height: "50%", // Larger
           background: `linear-gradient(
             90deg,
             transparent 0%,
-            rgba(221, 214, 254, 0.12) 30%,
-            rgba(255, 255, 255, 0.15) 50%,
-            rgba(221, 214, 254, 0.12) 70%,
+            transparent 15%,
+            rgba(221, 214, 254, 0.06) 30%,
+            rgba(255, 255, 255, 0.08) 50%,
+            rgba(221, 214, 254, 0.06) 70%,
+            transparent 85%,
             transparent 100%
           )`,
-          filter: "blur(50px)",
-          willChange: "transform, opacity",
+          // NO filter: blur() - GPU thrashing fix!
           backfaceVisibility: "hidden",
           animation: "mist-drift 70s ease-in-out infinite",
           animationDelay: "-25s",

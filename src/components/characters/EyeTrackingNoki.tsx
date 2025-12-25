@@ -134,13 +134,14 @@ function TrackingEye({
           }}
         />
 
-        {/* Animated glow overlay - opacity only (GPU-accelerated) */}
+        {/* Animated glow overlay - NO filter blur, uses soft gradient instead */}
         <motion.div
-          className="absolute -inset-2 rounded-full pointer-events-none"
+          className="absolute -inset-4 rounded-full pointer-events-none"
           style={{
+            // Ultra-soft radial gradient replaces filter: blur(4px)
             background:
-              "radial-gradient(circle, rgba(0, 245, 255, 0.4) 0%, transparent 70%)",
-            filter: "blur(4px)",
+              "radial-gradient(circle, rgba(0, 245, 255, 0.35) 0%, rgba(0, 245, 255, 0.15) 30%, rgba(0, 245, 255, 0.05) 60%, transparent 85%)",
+            // NO filter: blur() - GPU thrashing fix!
             // Force GPU layer
             backfaceVisibility: "hidden",
             transform: "translateZ(0)",

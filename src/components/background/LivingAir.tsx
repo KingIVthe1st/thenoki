@@ -79,23 +79,29 @@ export function AmbientDust() {
       className="absolute inset-0 pointer-events-none overflow-hidden"
       style={{ zIndex: 15 }}
     >
-      {dustParticles.map((particle) => (
-        <div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            left: particle.left,
-            top: particle.top,
-            width: particle.size,
-            height: particle.size,
-            backgroundColor: "rgba(255, 255, 255, 0.8)",
-            opacity: particle.opacity,
-            filter: `blur(${particle.size * 0.3}px)`,
-            animation: `dust-float ${particle.duration}s ease-in-out infinite`,
-            animationDelay: `${particle.delay}s`,
-          }}
-        />
-      ))}
+      {dustParticles.map((particle) => {
+        // Use radial gradient instead of filter blur for GPU performance
+        const scaledSize = particle.size * 3; // Larger with soft gradient
+
+        return (
+          <div
+            key={particle.id}
+            className="absolute rounded-full"
+            style={{
+              left: particle.left,
+              top: particle.top,
+              width: scaledSize,
+              height: scaledSize,
+              // Soft radial gradient instead of blur filter
+              background: `radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.4) 30%, transparent 70%)`,
+              opacity: particle.opacity,
+              // NO filter: blur() - GPU thrashing fix!
+              animation: `dust-float ${particle.duration}s ease-in-out infinite`,
+              animationDelay: `${particle.delay}s`,
+            }}
+          />
+        );
+      })}
     </div>
   );
 }

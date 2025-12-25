@@ -188,6 +188,7 @@ export function PixieDustTrail() {
 }
 
 // Individual particle component
+// NOTE: No filter effects - uses SVG gradients for glow to avoid GPU thrashing
 function PixieParticle({
   type,
   size,
@@ -197,20 +198,31 @@ function PixieParticle({
   size: number;
   color: string;
 }) {
-  const glowStyle = {
-    filter: `drop-shadow(0 0 ${size / 2}px ${color})`,
-  };
+  // Generate unique ID for SVG gradient definitions
+  const gradientId = `glow-${type}-${size}`;
 
   if (type === "sparkle") {
     return (
       <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill={color}
-        style={glowStyle}
+        width={size * 1.5}
+        height={size * 1.5}
+        viewBox="0 0 36 36"
+        style={{ overflow: "visible" }}
       >
-        <path d="M12 0L14 10L24 12L14 14L12 24L10 14L0 12L10 10L12 0Z" />
+        <defs>
+          <radialGradient id={gradientId} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={color} stopOpacity="1" />
+            <stop offset="60%" stopColor={color} stopOpacity="0.6" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Glow circle behind */}
+        <circle cx="18" cy="18" r="12" fill={`url(#${gradientId})`} />
+        {/* Sparkle shape */}
+        <path
+          d="M18 6L20 16L30 18L20 20L18 30L16 20L6 18L16 16L18 6Z"
+          fill={color}
+        />
       </svg>
     );
   }
@@ -218,13 +230,25 @@ function PixieParticle({
   if (type === "star") {
     return (
       <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill={color}
-        style={glowStyle}
+        width={size * 1.5}
+        height={size * 1.5}
+        viewBox="0 0 36 36"
+        style={{ overflow: "visible" }}
       >
-        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+        <defs>
+          <radialGradient id={gradientId} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={color} stopOpacity="1" />
+            <stop offset="60%" stopColor={color} stopOpacity="0.6" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Glow circle behind */}
+        <circle cx="18" cy="18" r="12" fill={`url(#${gradientId})`} />
+        {/* Star shape */}
+        <path
+          d="M18 8L20.5 15.5L28 18L20.5 20.5L18 28L15.5 20.5L8 18L15.5 15.5L18 8Z"
+          fill={color}
+        />
       </svg>
     );
   }
@@ -232,28 +256,46 @@ function PixieParticle({
   if (type === "heart") {
     return (
       <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill={color}
-        style={glowStyle}
+        width={size * 1.5}
+        height={size * 1.5}
+        viewBox="0 0 36 36"
+        style={{ overflow: "visible" }}
       >
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        <defs>
+          <radialGradient id={gradientId} cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor={color} stopOpacity="1" />
+            <stop offset="60%" stopColor={color} stopOpacity="0.6" />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Glow circle behind */}
+        <circle cx="18" cy="18" r="12" fill={`url(#${gradientId})`} />
+        {/* Heart shape - scaled and centered */}
+        <path
+          d="M18 27.35l-1.09-0.99C12.06 22.02 9 19.21 9 15.75 9 13.07 11.07 11 13.75 11c1.31 0 2.56.61 3.38 1.57C18.07 11.61 19.32 11 20.62 11 23.31 11 25.37 13.07 25.37 15.75c0 2.84-2.55 5.15-6.41 8.66L18 27.35z"
+          fill={color}
+        />
       </svg>
     );
   }
 
-  // Circle
+  // Circle - use radial gradient instead of boxShadow
   return (
-    <div
-      style={{
-        width: size,
-        height: size,
-        borderRadius: "50%",
-        backgroundColor: color,
-        boxShadow: `0 0 ${size}px ${color}`,
-      }}
-    />
+    <svg
+      width={size * 2}
+      height={size * 2}
+      viewBox="0 0 24 24"
+      style={{ overflow: "visible" }}
+    >
+      <defs>
+        <radialGradient id={gradientId} cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor={color} stopOpacity="1" />
+          <stop offset="40%" stopColor={color} stopOpacity="0.8" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </radialGradient>
+      </defs>
+      <circle cx="12" cy="12" r="12" fill={`url(#${gradientId})`} />
+    </svg>
   );
 }
 
